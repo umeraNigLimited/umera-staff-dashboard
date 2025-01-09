@@ -1,3 +1,32 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Global styles for small screens */
+body {
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Tablet Styles (768px and below) */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+    background-color: #eaeaea;
+  }
+
+  .shrink-sidebar {
+    width: 200px;
+  }
+}
+
+/* Mobile Styles (480px and below) */
+@media (max-width: 480px) {
+  body {
+    font-size: 12px;
+    background-color: #dcdcdc;
+  }
+}

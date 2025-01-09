@@ -24,7 +24,7 @@ const ReportInputForm = ({ onSubmit }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-gray-800 bg-opacity-50 backdrop-blur-md shadow-lg rounded-xl p-6 border border-gray-700 w-96 h-auto transition-all duration-300 space-y-4 w-full max-w-lg mx-auto"
+      className="bg-gray-800 bg-opacity-50 backdrop-blur-md shadow-lg rounded-xl p-6 border border-gray-700 w-96 h-auto transition-all duration-300 space-y-4 w-full max-w-lg mx-auto mt-4"
     >
       <h2 className="text-2xl font-bold text-gray-100">Submit a Report</h2>
 

@@ -12,7 +12,7 @@ const Profile = () => {
         />
 
         <div>
-          <h3 className="text-lg font-semibold text-gray-100">John Doe</h3>
+          <h3 className="text-lg font-semibold text-gray-100">Oluwabukola</h3>
           <p className="text-gray-400">example@umera.ng</p>
         </div>
       </div>

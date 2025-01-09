@@ -14,7 +14,7 @@ const SettingsPage = () => {
         <Notifications />
         <Security />
         <ConnectedAccounts />
-        <DangerZone />
+        {/* <DangerZone /> */}
       </main>
     </div>
   );

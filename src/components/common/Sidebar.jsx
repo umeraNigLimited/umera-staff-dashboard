@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
   BarChart2,
   DollarSign,
@@ -9,7 +10,6 @@ import {
   TrendingUp,
   Users,
 } from "lucide-react";
-import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Link } from "react-router-dom";
 
@@ -35,12 +35,35 @@ const SIDEBAR_ITEMS = [
 
 const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isDisabled, setIsDisabled] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const isMobile = window.innerWidth < 768;
+      setIsDisabled(isMobile);
+
+      if (isMobile) {
+        setIsSidebarOpen(false); // Close the sidebar on smaller screens
+      }
+    };
+
+    // Initial check on mount
+    handleResize();
+
+    // Add event listener for window resize
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup event listener on component unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <motion.div
       className={`relative z-10 transition-all duration-300 ease-in-out flex-shrink-0 ${
         isSidebarOpen ? "w-64" : "w-20"
-      }`}
+      } shrink-sidebar`}
       animate={{ width: isSidebarOpen ? 256 : 80 }}
     >
       <div className="h-full bg-gray-800 bg-opacity-50 backdrop-blur-md p-4 flex flex-col border-r border-gray-700">
@@ -48,7 +71,8 @@ const Sidebar = () => {
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          className="p-2 rounded-full hover:bg-gray-700 transition-colors max-w-fit"
+          className="p-2 rounded-full hover:bg-gray-700 transition-colors max-w-fit disable-menu"
+          disabled={isDisabled}
         >
           <Menu size={24} />
         </motion.button>

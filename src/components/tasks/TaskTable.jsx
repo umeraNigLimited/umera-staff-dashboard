@@ -5,9 +5,11 @@ import {
   getSortedRowModel,
   flexRender,
 } from "@tanstack/react-table";
-import { PlusCircle, Trash } from "lucide-react";
+import { Calendar, CirclePlus, PlusCircle, Trash } from "lucide-react";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
+import "../../styles/table.css";
+import Avatar from "../common/Avatar";
 
 const TaskTable = () => {
   const [sections, setSections] = useState([
@@ -15,6 +17,8 @@ const TaskTable = () => {
     { id: 2, name: "Doing", tasks: [] },
     { id: 3, name: "Done", tasks: [] },
   ]);
+
+  const [assignee, setAsignee] = useState(false);
 
   const [globalFilter, setGlobalFilter] = useState("");
   const [showConfetti, setShowConfetti] = useState(false);
@@ -111,7 +115,7 @@ const TaskTable = () => {
         accessorKey: "task",
         header: "Task",
         cell: ({ row }) => (
-          <div style={{ display: "flex", alignItems: "center" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
             <input
               type="checkbox"
               checked={row.original.completed}
@@ -140,40 +144,39 @@ const TaskTable = () => {
       {
         accessorKey: "assignee",
         header: "Assignee",
-        cell: ({ row }) => (
-          <input
-            type="text"
-            value={row.original.assignee}
-            onChange={(e) =>
-              updateTask(
-                row.original.sectionId,
-                row.original.id,
-                "assignee",
-                e.target.value
-              )
-            }
-            className="w-full border border-gray-300 rounded px-2 py-1"
-            placeholder="Enter Assignee"
-          />
-        ),
+        cell: ({ row }) =>
+          assignee ? (
+            <Avatar />
+          ) : (
+            <CirclePlus className="text-white-500 hover:text-red-700" />
+          ),
       },
       {
         accessorKey: "dueDate",
         header: "Due Date",
         cell: ({ row }) => (
-          <input
-            type="date"
-            value={row.original.dueDate}
-            onChange={(e) =>
-              updateTask(
-                row.original.sectionId,
-                row.original.id,
-                "dueDate",
-                e.target.value
-              )
-            }
-            className="w-full border border-gray-300 rounded px-2 py-1"
-          />
+          <div className="relative inline-block">
+            <input
+              type="date"
+              id="date-picker"
+              value={row.original.dueDate}
+              onChange={(e) =>
+                updateTask(
+                  row.original.sectionId,
+                  row.original.id,
+                  "dueDate",
+                  e.target.value
+                )
+              }
+              class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+            />
+            <label
+              for="date-picker"
+              class="flex items-center justify-center w-12 h-12 bg-gray-100 rounded-full text-gray-600 hover:bg-gray-200 cursor-pointer"
+            >
+              <Calendar />
+            </label>
+          </div>
         ),
       },
       {
@@ -190,7 +193,7 @@ const TaskTable = () => {
                 e.target.value
               )
             }
-            className="w-full border border-gray-300 rounded px-2 py-1"
+            className="w-full border border-gray-300 rounded px-2 py-1 bg-transparent"
           >
             <option value="Low">Low</option>
             <option value="Medium">Medium</option>
