@@ -1,0 +1,6 @@
+@media (max-width: 768px) {
+  table thead th:not(:first-child),
+  table tbody td:not(:first-child) {
+    display: none;
+  }
+}
