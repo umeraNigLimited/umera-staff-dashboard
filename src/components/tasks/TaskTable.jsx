@@ -135,7 +135,7 @@ const TaskTable = () => {
                   e.target.value
                 )
               }
-              className="w-full rounded px-2 py-1 bg-transparent border border-gray-300 focus:ring-2 focus:ring-red-500 focus:outline-none"
+              className="w-full rounded px-2 py-1 bg-transparent border border-gray-300 focus:ring-2 focus:ring-red-500 focus:outline-none text-gray-800"
               placeholder="Enter Task"
             />
           </div>
@@ -148,7 +148,7 @@ const TaskTable = () => {
           assignee ? (
             <Avatar />
           ) : (
-            <CirclePlus className="text-white-500 hover:text-red-700" />
+            <CirclePlus className="text-gray-600 hover:text-red-700" />
           ),
       },
       {
@@ -174,7 +174,7 @@ const TaskTable = () => {
               for="date-picker"
               class="flex items-center justify-center w-12 h-12 bg-gray-100 rounded-full text-gray-600 hover:bg-gray-200 cursor-pointer"
             >
-              <Calendar />
+              <Calendar className="text-gray-600" />
             </label>
           </div>
         ),
@@ -193,7 +193,7 @@ const TaskTable = () => {
                 e.target.value
               )
             }
-            className="w-full border border-gray-300 rounded px-2 py-1 bg-transparent"
+            className="w-full border border-gray-300 rounded px-2 py-1 bg-transparent text-gray-600"
           >
             <option value="Low">Low</option>
             <option value="Medium">Medium</option>
@@ -220,20 +220,23 @@ const TaskTable = () => {
   return (
     <div className="p-4 bg-transparent min-h-screen">
       {showConfetti && <Confetti width={width} height={height} />}
-      <h1 className="text-2xl font-bold mb-4">Task Manager</h1>
+      <h1 className="text-2xl font-bold mb-4 text-gray-900">Task Manager</h1>
       <button
         onClick={addSection}
         className="bg-green-500 text-white px-4 py-2 rounded flex items-center gap-1 mb-4"
       >
         <PlusCircle size={20} /> Add Section
       </button>
+
+      {/* TABLE SECTION */}
       {sections.map((section) => (
         <div
           key={section.id}
-          className="mb-8 p-4 bg-gray-800 bg-opacity-50 backdrop-blur-md overflow-hidden shadow-lg rounded-xl border border-gray-700"
+          className="mb-8 p-4 bg-white bg-opacity-50 backdrop-blur-md overflow-hidden shadow-lg rounded-xl"
         >
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-bold">{section.name}</h2>
+            {/* SECTION NAME*/}
+            <h2 className="text-xl font-bold text-gray-900">{section.name}</h2>
             <button
               onClick={() => deleteSection(section.id)}
               className="text-red-500 hover:text-red-700"
@@ -248,10 +251,13 @@ const TaskTable = () => {
             <PlusCircle size={20} /> Add Task
           </button>
           <div className="overflow-x-auto">
-            <table className="w-full border border border-gray-700 bg-transparent rounded-lg">
+            <table className="w-full border bg-transparent rounded-lg">
               <thead className="">
                 {columns.map((column) => (
-                  <th key={column.accessorKey} className="px-4 py-2 text-left">
+                  <th
+                    key={column.accessorKey}
+                    className="px-4 py-2 text-left text-gray-700"
+                  >
                     {column.header}
                   </th>
                 ))}
@@ -260,7 +266,7 @@ const TaskTable = () => {
                 {section.tasks.map((task) => (
                   <tr
                     key={task.id}
-                    className="hover:border hover:border-gray-500 hover:bg-gray-500 hover:bg-opacity-20 hover:shadow-lg border-t border-gray-900 bg-transparent"
+                    className="hover:border hover:border-gray-100 hover:bg-gray-500 hover:bg-opacity-20 hover:shadow-lg border-t border-gray-300 bg-transparent"
                   >
                     {columns.map((column) => (
                       <td key={column.accessorKey} className="px-4 py-2">

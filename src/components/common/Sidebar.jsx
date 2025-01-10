@@ -17,20 +17,20 @@ const SIDEBAR_ITEMS = [
   {
     name: "Overview",
     icon: House,
-    color: "#6366f1",
+    color: "white",
     href: "/",
   },
-  { name: "Tasks", icon: ClipboardCheck, color: "#8B5CF6", href: "/tasks" },
-  { name: "Report", icon: TrendingUp, color: "#3B82F6", href: "/reports" },
+  { name: "Tasks", icon: ClipboardCheck, color: "white", href: "/tasks" },
+  { name: "Report", icon: TrendingUp, color: "white", href: "/reports" },
   {
     name: "Productivity",
     icon: BarChart2,
-    color: "#EC4899",
+    color: "white",
     href: "/Productivity",
   },
-  //   { name: "Sales", icon: DollarSign, color: "#10B981", href: "/sales" },
+  { name: "Broadcast", icon: DollarSign, color: "white", href: "/broadcast" },
   //   { name: "Orders", icon: ShoppingCart, color: "#F59E0B", href: "/orders" },
-  { name: "Settings", icon: Settings, color: "#6EE7B7", href: "/settings" },
+  { name: "Settings", icon: Settings, color: "white", href: "/settings" },
 ];
 
 const Sidebar = () => {
@@ -66,12 +66,13 @@ const Sidebar = () => {
       } shrink-sidebar`}
       animate={{ width: isSidebarOpen ? 256 : 80 }}
     >
-      <div className="h-full bg-gray-800 bg-opacity-50 backdrop-blur-md p-4 flex flex-col border-r border-gray-700">
+      {/* <div className="h-full bg-gray-800 bg-opacity-50 backdrop-blur-md p-4 flex flex-col border-r border-gray-700"> */}
+      <div className="h-full bg-red-900 p-4 flex flex-col border-r border-red-100">
         <motion.button
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          className="p-2 rounded-full hover:bg-gray-700 transition-colors max-w-fit disable-menu"
+          className="p-2 rounded-full hover:bg-red-700 transition-colors max-w-fit disable-menu"
           disabled={isDisabled}
         >
           <Menu size={24} />
@@ -80,7 +81,7 @@ const Sidebar = () => {
         <nav className="mt-8 flex-grow">
           {SIDEBAR_ITEMS.map((item) => (
             <Link key={item.href} to={item.href}>
-              <motion.div className="flex items-center p-4 text-sm font-medium rounded-lg hover:bg-gray-700 transition-colors mb-2">
+              <motion.div className="flex items-center p-4 text-sm font-medium rounded-lg hover:bg-red-700 transition-colors mb-2">
                 <item.icon
                   size={20}
                   style={{ color: item.color, minWidth: "20px" }}

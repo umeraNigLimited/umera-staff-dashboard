@@ -12,7 +12,7 @@ import StatCard from "../components/common/StatCard";
 import SalesOverviewChart from "../components/overview/Announcement";
 import CategoryDistributionChart from "../components/overview/CategoryDistributionChart";
 import RevenueChannelChart from "../components/overview/RevenueChannelChart ";
-import Celebration from "../components/overview/Announcement";
+import Celebration from "../components/overview/Celebration";
 import Announcement from "../components/overview/Announcement";
 
 const OverviewPage = () => {

@@ -143,12 +143,12 @@ const AnalyticsPage = () => {
   };
 
   return (
-    <div className="flex-1 overflow-auto relative z-10 bg-red-900">
+    <div className="flex-1 overflow-auto relative z-10 bg-gray-200">
       <Header title={"Reports"} />
 
       <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8">
         <button
-          className="bg-gray-800 bg-opacity-20 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-200 w-full sm:w-auto flex items-center justify-center"
+          className="bg-red-800 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-200 w-full sm:w-auto flex items-center justify-center outline-0"
           onClick={onCreateReport}
         >
           {createReport ? (
