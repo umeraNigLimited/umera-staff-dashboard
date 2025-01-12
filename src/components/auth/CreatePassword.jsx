@@ -45,12 +45,12 @@ function CreatePassword() {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-[#890709]">
+    <div className="flex items-center justify-center min-h-screen bg-[#890709] px-8">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-6">
           <img
-            src="/umera-logo.svg" // Replace with your logo's path
+            src="/umera-logo.svg" //
             alt="UMeRA Logo"
             className="mx-auto mb-2"
             width={70}
@@ -71,7 +71,7 @@ function CreatePassword() {
               id="staff_id"
               name="staff_id"
               type="text"
-              placeholder="UMS-RD-010"
+              placeholder="UMS201125010"
               value={staffId}
               onChange={handleStaffId}
               className="mt-1 block w-full px-4 py-2 border rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-[#890709] focus:border-[#890709]"
