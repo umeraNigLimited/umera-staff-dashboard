@@ -1,10 +1,10 @@
 import Header from "../components/common/Header";
 import ConnectedAccounts from "../components/settings/ConnectedAccounts";
-import DangerZone from "../components/settings/DangerZone";
 import Documents from "../components/settings/Documents";
 import Notifications from "../components/settings/Notifications";
 import Profile from "../components/settings/Profile";
 import Security from "../components/settings/Security";
+import Logout from "../components/settings/Logout";
 
 const SettingsPage = () => {
   return (
@@ -16,7 +16,7 @@ const SettingsPage = () => {
         <Documents />
         <Security />
         <ConnectedAccounts />
-        {/* <DangerZone /> */}
+        <Logout />
       </main>
     </div>
   );

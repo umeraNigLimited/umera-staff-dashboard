@@ -10,8 +10,13 @@ import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
 import "../../styles/table.css";
 import Avatar from "../common/Avatar";
+import { useTasksContext } from "../hooks/useTasksContext";
+import { format } from "date-fns";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const TaskTable = () => {
+  const [task, setTask] = useState([]);
+  const { tasks, dispatch } = useTasksContext();
   const [sections, setSections] = useState([
     { id: 1, name: "Todo", tasks: [] },
     { id: 2, name: "Doing", tasks: [] },
@@ -19,10 +24,30 @@ const TaskTable = () => {
   ]);
 
   const [assignee, setAsignee] = useState(false);
+  const { user } = useAuthContext();
 
   const [globalFilter, setGlobalFilter] = useState("");
   const [showConfetti, setShowConfetti] = useState(false);
   const { width, height } = useWindowSize();
+
+  const handleDelete = async () => {
+    if (!user) {
+      return;
+    }
+    const response = await fetch(`http://localhost:29199/api/task/${task_id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
+
+    const json = await response.json();
+
+    if (response.ok) {
+      dispatch({ type: "DELETE TASK", payload: json });
+      setTask(tasks);
+    }
+  };
 
   const addSection = () => {
     const newSection = {
@@ -155,28 +180,34 @@ const TaskTable = () => {
         accessorKey: "dueDate",
         header: "Due Date",
         cell: ({ row }) => (
-          <div className="relative inline-block">
-            <input
-              type="date"
-              id="date-picker"
-              value={row.original.dueDate}
-              onChange={(e) =>
-                updateTask(
-                  row.original.sectionId,
-                  row.original.id,
-                  "dueDate",
-                  e.target.value
-                )
-              }
-              class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-            />
-            <label
-              for="date-picker"
-              class="flex items-center justify-center w-12 h-12 bg-gray-100 rounded-full text-gray-600 hover:bg-gray-200 cursor-pointer"
-            >
-              <Calendar className="text-gray-600" />
-            </label>
-          </div>
+          <>
+            {!row ? (
+              <div className="relative inline-block">
+                <input
+                  type="date"
+                  id="date-picker"
+                  value={row.original.dueDate}
+                  onChange={(e) =>
+                    updateTask(
+                      row.original.sectionId,
+                      row.original.id,
+                      "dueDate",
+                      e.target.value
+                    )
+                  }
+                  class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                />
+                <label
+                  for="date-picker"
+                  class="flex items-center justify-center w-12 h-12 bg-gray-100 rounded-full text-gray-600 hover:bg-gray-200 cursor-pointer"
+                >
+                  <Calendar className="text-gray-600" />
+                </label>
+              </div>
+            ) : (
+              format(new Date(row), "dd MM")
+            )}
+          </>
         ),
       },
       {

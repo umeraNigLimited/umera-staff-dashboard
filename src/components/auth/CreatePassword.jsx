@@ -1,38 +1,80 @@
 // App.jsx
-import React from "react";
+import React, { useState } from "react";
+import { useCreatePassword } from "../hooks/useCreatePassword";
 
-function SignIn() {
+function CreatePassword() {
+  const [staffId, setStaffId] = useState("");
+  const [password, setPassword] = useState({
+    password: "",
+    confirm_password: "",
+  });
+
+  const { createPassword, error, loading, setError } = useCreatePassword();
+
+  function handleStaffId(e) {
+    const { value } = e.target;
+    setStaffId(value);
+  }
+
+  function handlePassword(e) {
+    const { name, value } = e.target;
+    setPassword((prev) => {
+      return {
+        ...prev,
+        [name]: value,
+      };
+    });
+
+    // if (password.password !== password.confirm_password) {
+    //   setSamePassword(false);
+    // }
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setError(null);
+
+    if (password.password !== password.confirm_password) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    // console.log(staffId, password.confirm_password, password.password);
+
+    await createPassword(staffId, password.password);
+  }
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-[#890709]">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-6">
           <img
-            src="../../public/umera-logo.svg" // Replace with your logo's path
+            src="/umera-logo.svg" // Replace with your logo's path
             alt="UMeRA Logo"
             className="mx-auto mb-2"
             width={70}
           />
-          <p className="text-lg font-bold text-gray-800">
-            Please enter your email address to create your password.
-          </p>
+          <h1 className="text-lg font-bold text-gray-800">CREATE PASSWORD</h1>
         </div>
 
         {/* Form */}
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label
-              htmlFor="email"
+              htmlFor="staff_id"
               className="block text-sm font-medium text-gray-700"
             >
-              Work Email
+              Staff ID
             </label>
             <input
-              id="email"
-              type="email"
-              placeholder="emmanuelolafusi@umera.ng"
+              id="staff_id"
+              name="staff_id"
+              type="text"
+              placeholder="UMS-RD-010"
+              value={staffId}
+              onChange={handleStaffId}
               className="mt-1 block w-full px-4 py-2 border rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-[#890709] focus:border-[#890709]"
-              readOnly
             />
           </div>
 
@@ -45,29 +87,53 @@ function SignIn() {
             </label>
             <input
               id="password"
-              type="text"
+              name="password"
+              type="password"
               placeholder="********"
+              value={password.password}
+              onChange={handlePassword}
+              className="mt-1 block w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#890709] focus:border-[#890709]"
+            />
+          </div>
+
+          <div className="mb-4">
+            <label
+              htmlFor="confirm_password"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Confirm Password
+            </label>
+            <input
+              id="confirm_password"
+              name="confirm_password"
+              type="password"
+              placeholder="********"
+              value={password.confirm_password}
+              onChange={handlePassword}
               className="mt-1 block w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#890709] focus:border-[#890709]"
             />
           </div>
 
           <button
             type="submit"
+            disabled={loading}
             className="w-full bg-[#890709] text-white py-2 px-4 rounded-lg font-medium hover:bg-[#a72020] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#a72020]"
           >
-            CREATE
+            CREATE PASSWORD
           </button>
         </form>
 
         {/* Links */}
-        {/* <div className="mt-6 flex flex-col items-center text-sm text-gray-600">
-          <a href="/new-staff" className="hover:text-[#890709]">
+        <div className="mt-6 flex flex-col items-center text-sm text-gray-600">
+          {/* <a href="/new-staff" className="hover:text-[#890709]">
             NEW STAFF
-          </a>
+          </a> */}
           <a href="/reset-password" className="hover:text-[#890709] mt-2">
-            RESET PASSWORD / CREATE PASSWORD
+            RESET PASSWORD
           </a>
-        </div> */}
+
+          {error && <span className="text-red-500 mt-4">{error}</span>}
+        </div>
       </div>
 
       {/* Footer */}
@@ -78,4 +144,4 @@ function SignIn() {
   );
 }
 
-export default SignIn;
+export default CreatePassword;

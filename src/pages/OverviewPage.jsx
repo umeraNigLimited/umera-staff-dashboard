@@ -14,8 +14,36 @@ import CategoryDistributionChart from "../components/overview/CategoryDistributi
 import RevenueChannelChart from "../components/overview/RevenueChannelChart ";
 import Celebration from "../components/overview/Celebration";
 import Announcement from "../components/overview/Announcement";
+import { useTasksContext } from "../components/hooks/useTasksContext";
+import { differenceInDays } from "date-fns";
 
 const OverviewPage = () => {
+  const { tasks, metrics } = useTasksContext();
+
+  const processTasks = () => {
+    return tasks.map((task) => {
+      const deadline = new Date(task.due_date); // Convert backend date string to Date object
+
+      // Calculate days left
+      const today = new Date();
+      const daysLeft = differenceInDays(deadline, today);
+
+      let status;
+      if (daysLeft <= 5) {
+        status = `${daysLeft} days left`;
+      } else if (daysLeft === 0) {
+        status = "Due today";
+      } else {
+        status = "Overdue";
+      }
+
+      return {
+        ...task,
+        status,
+      };
+    });
+  };
+
   return (
     <div className="flex-1 overflow-auto relative z-10">
       <Header title="Overview" />
@@ -31,7 +59,7 @@ const OverviewPage = () => {
           <StatCard
             name="Acheived Task"
             icon={ClipboardCheck}
-            value="2/10"
+            value={`${metrics.achievedTasks}/${metrics.totalTasks}`}
             color="#6366F1"
           />
           <StatCard name="Leave" icon={DoorOpen} value="5/10" color="#8B5CF6" />

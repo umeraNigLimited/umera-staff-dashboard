@@ -1,66 +1,124 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, Suspense, lazy } from "react";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import Layout from "./components/layout/Layout";
+import { useTasksContext } from "./components/hooks/useTasksContext";
+import { useAuthContext } from "./components/hooks/useAuthContext";
+import Loader from "./components/common/Loader";
 
-import { Route, Routes } from "react-router-dom";
-import Sidebar from "./components/common/Sidebar";
-import OverviewPage from "./pages/OverviewPage";
-import TasksPage from "./pages/TasksPage";
-import ProductivityPage from "./pages/ProductivityPage";
-import SalesPage from "./pages/SalesPage";
-import OrdersPage from "./pages/OrdersPage";
-import ReportsPage from "./pages/ReportsPage";
-import SettingsPage from "./pages/SettingsPage";
-import SignIn from "./components/auth/SignIn";
-import CreatePassword from "./components/auth/CreatePassword";
-import { useTaskContext } from "./components/hooks/useTaskContext";
-import BroadcastPage from "./pages/BroadcastPage";
+// Lazy-loaded components
+const OverviewPage = lazy(() => import("./pages/OverviewPage"));
+const TasksPage = lazy(() => import("./pages/TasksPage"));
+const ProductivityPage = lazy(() => import("./pages/ProductivityPage"));
+const SalesPage = lazy(() => import("./pages/SalesPage"));
+const OrdersPage = lazy(() => import("./pages/OrdersPage"));
+const ReportsPage = lazy(() => import("./pages/ReportsPage"));
+const SettingsPage = lazy(() => import("./pages/SettingsPage"));
+const BroadcastPage = lazy(() => import("./pages/BroadcastPage"));
+const SignIn = lazy(() => import("./components/auth/SignIn"));
+const CreatePassword = lazy(() => import("./components/auth/CreatePassword"));
 
 function App() {
-  const [user, setUser] = useState(true);
-  const { task, dispatch } = useTaskContext;
+  const { dispatch } = useTasksContext();
+  const { user } = useAuthContext();
+
+  useEffect(() => {
+    const fetchTask = async () => {
+      try {
+        const response = await fetch("http://localhost:29199/api/task/", {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        });
+        const data = await response.json();
+
+        if (response.ok) {
+          dispatch({ type: "SET_TASK", payload: data.data });
+          console.log(data.data);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    if (user) {
+      fetchTask();
+    }
+  }, [dispatch, user]);
 
   // useEffect(() => {
-  //   const fetchTask = async () => {
-  //     const response = await fetch("http://localhost:29199/");
-  //     const data = await response.json();
+  //   const validateToken = async () => {
+  //     try {
+  //       const response = await fetch("http://localhost:29199/api/validate", {
+  //         headers: {
+  //           Authorization: `Bearer ${user.token}`,
+  //         },
+  //       });
 
-  //     if (response.ok) {
-  //       dispatch({ type: "SET_TASK", payload: data });
+  //       if (!response.ok) {
+  //         throw new Error("Invalid token");
+  //       }
+  //     } catch (err) {
+  //       console.error(err);
+  //       localStorage.removeItem("user"); // Remove invalid token
+  //       dispatch({ type: "LOGOUT" });
   //     }
   //   };
-  // }, []);
+
+  //   if (user) {
+  //     validateToken();
+  //   }
+  // }, [user, dispatch]);
 
   return (
-    <>
-      {user ? (
-        <div className="flex h-screen bg-gray-100 text-gray-100 overflow-hidden">
-          {/* <div className="flex h-screen bg-red-950 text-gray-100 overflow-hidden"> */}
-          {/* BG */}
-          {/* <div className="fixed inset-0 z-0"> */}
-          <div className="fixed inset-0 z-0">
-            <div className="absolute inset-0 bg-inherit" />
-            {/* <div className="absolute inset-0 bg-gradient-to-br from-red-950 via-red-800 to-red-950 opacity-90" /> */}
-            <div className="absolute inset-0 backdrop-blur-sm" />
-          </div>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Layout />}>
+          {/* Protected Routes */}
+          <Route
+            path="/"
+            element={user ? <OverviewPage /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/tasks"
+            element={user ? <TasksPage /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/reports"
+            element={user ? <ReportsPage /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/productivity"
+            element={user ? <ProductivityPage /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/sales"
+            element={user ? <SalesPage /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/orders"
+            element={user ? <OrdersPage /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/broadcast"
+            element={user ? <BroadcastPage /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/settings"
+            element={user ? <SettingsPage /> : <Navigate to="/login" />}
+          />
+        </Route>
 
-          <Sidebar />
-          <Routes>
-            <Route path="/" element={<OverviewPage />} />
-            <Route path="/tasks" element={<TasksPage />} />
-            <Route path="/reports" element={<ReportsPage />} />
-            <Route path="/productivity" element={<ProductivityPage />} />
-            <Route path="/sales" element={<SalesPage />} />
-            <Route path="/orders" element={<OrdersPage />} />
-            <Route path="/broadcast" element={<BroadcastPage />} />
-            <Route path="/settings" element={<SettingsPage />} />
-          </Routes>
-        </div>
-      ) : (
-        <Routes>
-          <Route path="/login" element={<SignIn />} />
-          <Route path="/create_password" element={<CreatePassword />} />
-        </Routes>
-      )}
-    </>
+        {/* Authentication Routes */}
+        <Route
+          path="/login"
+          element={!user ? <SignIn /> : <Navigate to="/" />}
+        />
+        <Route path="/create_password" element={<CreatePassword />} />
+
+        {/* Catch-All Route */}
+        <Route path="*" element={<Navigate to={user ? "/" : "/login"} />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

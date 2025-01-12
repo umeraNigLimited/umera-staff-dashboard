@@ -5,7 +5,7 @@ import {
   House,
   Menu,
   Settings,
-  ShoppingBag,
+  Volume1,
   ClipboardCheck,
   TrendingUp,
   Users,
@@ -28,7 +28,7 @@ const SIDEBAR_ITEMS = [
     color: "white",
     href: "/Productivity",
   },
-  { name: "Broadcast", icon: DollarSign, color: "white", href: "/broadcast" },
+  { name: "Broadcast", icon: Volume1, color: "white", href: "/broadcast" },
   //   { name: "Orders", icon: ShoppingCart, color: "#F59E0B", href: "/orders" },
   { name: "Settings", icon: Settings, color: "white", href: "/settings" },
 ];
