@@ -34,7 +34,7 @@ function SignIn() {
         {/* Logo */}
         <div className="text-center mb-6">
           <img
-            src="../../public/umera-logo.svg" // Replace with your logo's path
+            src="/umera-logo.svg" // Replace with your logo's path
             alt="UMeRA Logo"
             className="mx-auto mb-2"
             width={70}
