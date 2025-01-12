@@ -18,7 +18,7 @@ const SIDEBAR_ITEMS = [
     name: "Overview",
     icon: House,
     color: "white",
-    href: "/",
+    href: "/overview",
   },
   { name: "Tasks", icon: ClipboardCheck, color: "white", href: "/tasks" },
   { name: "Report", icon: TrendingUp, color: "white", href: "/reports" },

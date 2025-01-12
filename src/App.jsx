@@ -75,7 +75,7 @@ function App() {
         <Route element={<Layout />}>
           {/* Protected Routes */}
           <Route
-            path="/"
+            path="/overview"
             element={user ? <OverviewPage /> : <Navigate to="/login" />}
           />
           <Route
@@ -111,12 +111,15 @@ function App() {
         {/* Authentication Routes */}
         <Route
           path="/login"
-          element={!user ? <SignIn /> : <Navigate to="/" />}
+          element={!user ? <SignIn /> : <Navigate to="/overview" />}
         />
         <Route path="/create_password" element={<CreatePassword />} />
 
         {/* Catch-All Route */}
-        <Route path="*" element={<Navigate to={user ? "/" : "/login"} />} />
+        <Route
+          path="*"
+          element={<Navigate to={user ? "/overview" : "/login"} />}
+        />
       </Routes>
     </BrowserRouter>
   );
