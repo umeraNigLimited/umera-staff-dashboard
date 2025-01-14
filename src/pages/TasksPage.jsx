@@ -13,8 +13,10 @@ import CategoryDistributionChart from "../components/overview/CategoryDistributi
 import SalesTrendChart from "../components/products/SalesTrendChart";
 import ProductsTable from "../components/products/ProductsTable";
 import TaskTable from "../components/tasks/TaskTable";
+import { useTasksContext } from "../components/hooks/useTasksContext";
 
 const TaskPage = () => {
+  const { tasks, metrics } = useTasksContext();
   return (
     <div className="flex-1 overflow-auto relative z-10">
       <Header title="Task" />
@@ -30,29 +32,29 @@ const TaskPage = () => {
           <StatCard
             name="Achieved"
             icon={Package}
-            value={"3/30"}
+            value={`${metrics.achievedTasks}/${metrics.totalTasks}`}
             color="#6366F1"
           />
           <StatCard
             name="High Priority"
             icon={TrendingUp}
-            value={9}
+            value={metrics.highPriorityTasks}
             color="#10B981"
           />
           <StatCard
             name="Low Priority"
             icon={AlertTriangle}
-            value={6}
+            value={metrics.lowPriorityTasks}
             color="#F59E0B"
           />
           <StatCard
             name="Medium Priority"
             icon={ChartNoAxesGantt}
-            value={6}
+            value={metrics.mediumPriorityTasks}
             color="#EF4444"
           />
         </motion.div>
-        <TaskTable />
+        <TaskTable d={tasks} />
         {/* <ProductsTable /> */}
 
         {/* CHARTS */}

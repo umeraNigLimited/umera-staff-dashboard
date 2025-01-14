@@ -7,6 +7,7 @@ import { TasksContextProvider } from "./components/context/TasksContext.jsx";
 import { AuthContextProvider } from "./components/context/AuthContext.jsx";
 import { LeaveContextProvider } from "./components/context/LeaveContext.jsx";
 import { QueryContextProvider } from "./components/context/QueryContext.jsx";
+import { ReportContextProvider } from "./components/context/ReportContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -14,7 +15,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <TasksContextProvider>
         <LeaveContextProvider>
           <QueryContextProvider>
-            <App />
+            <ReportContextProvider>
+              <App />
+            </ReportContextProvider>
           </QueryContextProvider>
         </LeaveContextProvider>
       </TasksContextProvider>

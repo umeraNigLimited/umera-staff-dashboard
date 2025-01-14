@@ -1,18 +1,12 @@
 import Header from "../components/common/Header";
 import { HelpCircle, Plus } from "lucide-react";
 
-import OverviewCards from "../components/analytics/OverviewCards";
-import RevenueChart from "../components/analytics/ProductivityChart";
-import ChannelPerformance from "../components/analytics/ChannelPerformance";
-import ProductPerformance from "../components/analytics/ProductPerformance";
-import UserRetention from "../components/analytics/UserRetention";
-import CustomerSegmentation from "../components/analytics/CustomerSegmentation";
-import AIPoweredInsights from "../components/analytics/AIPoweredInsights";
 import Report from "../components/reports/Report";
 import { useState } from "react";
 import ReportInputForm from "../components/reports/ReportInputForm";
+import { useReportContext } from "../components/hooks/useReportContext";
 
-const report = [
+const reports = [
   {
     id: 1,
     title: "Issue with Payment Gateway",
@@ -132,7 +126,7 @@ const report = [
 
 const AnalyticsPage = () => {
   const [createReport, setCreateReport] = useState(false);
-  const [reports, setReports] = useState(report);
+  // const [reports, setReports] = useState(reports);
   function onCreateReport() {
     setCreateReport((prev) => !prev);
     console.log("The on Create Button was clicked");
@@ -141,6 +135,8 @@ const AnalyticsPage = () => {
   const onSubmit = (report) => {
     setReports([...reports, report]);
   };
+
+  const { report } = useReportContext();
 
   return (
     <div className="flex-1 overflow-auto relative z-10 bg-gray-200">
@@ -162,13 +158,8 @@ const AnalyticsPage = () => {
         </button>
         {createReport && <ReportInputForm onSubmit={onSubmit} />}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-          {reports.map((reports, index) => (
-            <Report
-              key={index}
-              title={reports.title}
-              date={reports.date}
-              content={reports.content}
-            />
+          {report?.map((reports, _) => (
+            <Report key={reports.report_id} data={reports} />
           ))}
         </div>
 
