@@ -1,0 +1,7 @@
+@media (max-width: 768px) {
+  /* For the second table */
+  #overview-tasks thead th:not(:nth-child(1)):not(:nth-child(3)),
+  #overview-tasks tbody td:not(:nth-child(1)):not(:nth-child(3)) {
+    display: none;
+  }
+}

@@ -3,14 +3,14 @@ import React, { createContext } from "react";
 const ProductivityContext = createContext();
 
 const productivityReducer = (state, action) => {
-  switch (action) {
-    case "SET_TASK":
+  switch (action.type) {
+    case "SET_PRODUCTIVITY":
       return {
-        task: action.payload,
+        productivity: action.payload,
       };
-    case "CREATE_TASK":
+    case "CREATE_PRODUCTIVITY":
       return {
-        task: [...state, action.payload],
+        productivity: [...state, action.payload],
       };
     default:
       return state;
@@ -23,7 +23,7 @@ export const ProductivityContextProvider = ({ children }) => {
   });
 
   return (
-    <ProductivityContext.Provider value={{}}>
+    <ProductivityContext.Provider value={{ ...state, dispatch }}>
       {children}
     </ProductivityContext.Provider>
   );

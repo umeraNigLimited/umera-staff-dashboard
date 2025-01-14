@@ -26,7 +26,7 @@ const Announcement = () => {
 
       {annoucement.length > 0 ? (
         <ul className="space-y-4">
-          {celebration.map((item) => (
+          {annoucement.map((item) => (
             <li key={item.id} className="bg-gray-100 p-4 rounded-lg shadow-sm">
               <h3 className="text-md font-semibold text-gray-800">
                 {item.title}

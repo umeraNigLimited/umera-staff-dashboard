@@ -1,14 +1,14 @@
 import React, { createContext } from "react";
 
-const ProductivityContext = createContext();
+const ReportContext = createContext();
 
-const productivityReducer = (state, action) => {
-  switch (action) {
-    case "SET_TASK":
+const reportReducer = (state, action) => {
+  switch (action.type) {
+    case "SET_REPORT":
       return {
         task: action.payload,
       };
-    case "CREATE_TASK":
+    case "CREATE_REPORT":
       return {
         task: [...state, action.payload],
       };
@@ -17,21 +17,14 @@ const productivityReducer = (state, action) => {
   }
 };
 
-export const ProductivityContextProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(productivityReducer, {
-    productivity: null,
-  });
-  <ProductivityContext.Provider value={{}}>
-    {children}
-  </ProductivityContext.Provider>;
-};
-
 export const ReportContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reportReducer, {
     report: null,
   });
 
-  retrunn(
-    <ReportContext.Provider value={{}}>{children}</ReportContext.Provider>
+  return (
+    <ReportContext.Provider value={{ ...state, dispatch }}>
+      {children}
+    </ReportContext.Provider>
   );
 };

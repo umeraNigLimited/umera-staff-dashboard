@@ -3,14 +3,14 @@ import React, { createContext, useReducer } from "react";
 const CelebrationContext = createContext();
 
 const celebrationReducer = (state, action) => {
-  switch (action) {
-    case "SET_TASK":
+  switch (action.type) {
+    case "SET_CELEBRATION":
       return {
-        task: action.payload,
+        celebration: action.payload,
       };
-    case "CREATE_TASK":
+    case "CREATE_CELEBRATION":
       return {
-        task: [...state, action.payload],
+        celebration: [...state, action.payload],
       };
     default:
       return state;
@@ -23,7 +23,7 @@ export const CelebrationContextProvider = ({ children }) => {
   });
 
   return (
-    <CelebrationContext.Provider value={{}}>
+    <CelebrationContext.Provider value={{ ...state, dispatch }}>
       {children}
     </CelebrationContext.Provider>
   );

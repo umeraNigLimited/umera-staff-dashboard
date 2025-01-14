@@ -16,9 +16,14 @@ import Celebration from "../components/overview/Celebration";
 import Announcement from "../components/overview/Announcement";
 import { useTasksContext } from "../components/hooks/useTasksContext";
 import { differenceInDays } from "date-fns";
+import { useLeaveContext } from "../components/hooks/useLeaveContext";
+import { useQueryContext } from "../components/hooks/useQueryContext";
+import TaskOverview from "../components/overview/TasksOverview";
 
 const OverviewPage = () => {
   const { tasks, metrics } = useTasksContext();
+  const { leaveMetrics } = useLeaveContext();
+  const { queryMetrics } = useQueryContext();
 
   const processTasks = () => {
     return tasks.map((task) => {
@@ -62,11 +67,16 @@ const OverviewPage = () => {
             value={`${metrics.achievedTasks}/${metrics.totalTasks}`}
             color="#6366F1"
           />
-          <StatCard name="Leave" icon={DoorOpen} value="5/10" color="#8B5CF6" />
+          <StatCard
+            name="Leave"
+            icon={DoorOpen}
+            value={`${leaveMetrics.totalLeaveDays}/10`}
+            color="#8B5CF6"
+          />
           <StatCard
             name="Query"
             icon={AlertTriangle}
-            value="0/3"
+            value={`${queryMetrics.totalQuery}/3`}
             color="#EC4899"
           />
           <StatCard
@@ -83,6 +93,7 @@ const OverviewPage = () => {
           <Announcement />
           <Celebration />
           {/* <CategoryDistributionChart /> */}
+          <TaskOverview />
           <RevenueChannelChart />
         </div>
       </main>
