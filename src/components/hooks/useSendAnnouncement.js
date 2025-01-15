@@ -12,14 +12,18 @@ export const useSendAnnouncement = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch("http://localhost:29199/api/announcement/", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(annoucement),
-      });
+      const response = await fetch(
+        "http://localhost:29199/api/announcement/" ||
+          "https://ebc0-160-152-14-7.ngrok-free.app/api/announcement",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(annoucement),
+        }
+      );
 
       console.log(annoucement);
 

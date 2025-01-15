@@ -12,7 +12,8 @@ export const useCreatePassword = () => {
     setError(null);
     try {
       const response = await fetch(
-        "http://localhost:29199/api/staff/create_password",
+        "http://localhost:29199/api/staff/create_password" ||
+          "https://ebc0-160-152-14-7.ngrok-free.app/api/create_password",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

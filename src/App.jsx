@@ -24,11 +24,15 @@ function App() {
   useEffect(() => {
     const fetchTask = async () => {
       try {
-        const response = await fetch("http://localhost:29199/api/task/", {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        });
+        const response = await fetch(
+          "http://localhost:29199/api/task/" ||
+            "https://ebc0-160-152-14-7.ngrok-free.app/api/task",
+          {
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
+          }
+        );
         const data = await response.json();
 
         if (response.ok) {
