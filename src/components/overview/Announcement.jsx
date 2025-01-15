@@ -1,18 +1,38 @@
 import { motion } from "framer-motion";
+import { useAnnouncementContext } from "../hooks/useAnnouncementContext";
+import PinUnpin from "./Pin";
+import { useState } from "react";
 
 const Announcement = () => {
+  const { annoucements } = useAnnouncementContext();
   const annoucement = [
     {
       id: 1,
-      title: "Holiday Notice",
-      message: "Office will be closed on Monday.",
+      title: "Resumption Notice",
+      message: "Happy New Year! 🎉 Office Resumes Jan 9.",
     },
     {
       id: 2,
-      title: "New Feature Alert",
-      message: "Check out the new dashboard view now available!",
+      title: "Dashboard Alert",
+      message: "Regular Updates will be made on the Dashboard",
+    },
+    {
+      id: 3,
+      title: "Dashboard Alert",
+      message: "Regular Updates will be made on the Dashboard",
+    },
+    {
+      id: 4,
+      title: "Dashboard Alert",
+      message: "Regular Updates will be made on the Dashboard",
+    },
+    {
+      id: 5,
+      title: "Dashboard Alert",
+      message: "Regular Updates will be made on the Dashboard",
     },
   ];
+  const [a, setA] = useState(false);
 
   return (
     <motion.div
@@ -23,23 +43,34 @@ const Announcement = () => {
     >
       <h2 className="text-lg font-medium mb-4 text-gray-900">Announcements</h2>
       <div className="border-t border-gray-300 mb-4"></div>
-
-      {annoucement.length > 0 ? (
-        <ul className="space-y-4">
-          {annoucement.map((item) => (
-            <li key={item.id} className="bg-gray-100 p-4 rounded-lg shadow-sm">
-              <h3 className="text-md font-semibold text-gray-800">
-                {item.title}
-              </h3>
-              <p className="text-sm text-gray-600">{item.message}</p>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p className="text-sm text-gray-600">
-          No announcements at the moment. Check back later!
-        </p>
-      )}
+      <div className="h-80 overflow-y-auto">
+        {annoucements.length > 0 ? (
+          <ul
+            className="space-y-4"
+            onClick={() => {
+              setA(!a);
+              console.log("It was clicked");
+            }}
+          >
+            {annoucements.map((item, index) => (
+              <li
+                key={index}
+                className="relative bg-gray-100 p-4 rounded-lg shadow-sm"
+              >
+                {a || (index == 0 && <PinUnpin key={index} a={a} />)}
+                <h3 className="text-md font-semibold text-gray-800">
+                  {item.title}
+                </h3>
+                <p className="text-sm text-gray-600">{item.content}</p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-sm text-gray-600">
+            No announcements at the moment. Check back later!
+          </p>
+        )}
+      </div>
     </motion.div>
   );
 };

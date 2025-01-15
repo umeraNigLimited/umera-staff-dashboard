@@ -8,6 +8,7 @@ import { AuthContextProvider } from "./components/context/AuthContext.jsx";
 import { LeaveContextProvider } from "./components/context/LeaveContext.jsx";
 import { QueryContextProvider } from "./components/context/QueryContext.jsx";
 import { ReportContextProvider } from "./components/context/ReportContext.jsx";
+import { AnnouncementContextProvider } from "./components/context/AnnouncementContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -16,7 +17,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <LeaveContextProvider>
           <QueryContextProvider>
             <ReportContextProvider>
-              <App />
+              <AnnouncementContextProvider>
+                <App />
+              </AnnouncementContextProvider>
             </ReportContextProvider>
           </QueryContextProvider>
         </LeaveContextProvider>

@@ -18,7 +18,9 @@ const Report = ({ data }) => {
   const { user } = useAuthContext();
 
   // Check if the current user is the owner of the report
-  const isOwner = user.staffID === data.staff_id;
+  const isEditable =
+    user.staffID === data.staff_id || user?.department == "UMeRA-DPT-AD";
+  // const isAdmin = user.department == "UMeRA-DPT-AD";
 
   // Handle content change
   const handleContentChange = (e) => {
@@ -127,7 +129,7 @@ const Report = ({ data }) => {
           />
         </div>
         {/* Button to toggle editing mode */}
-        {isOwner && (
+        {isEditable && (
           // Show edit button only for the owner of the report
           <button
             onClick={toggleEdit}

@@ -5,7 +5,7 @@ export const useAuthContext = () => {
   const context = useContext(AuthContext);
 
   if (!context) {
-    throw new Error("useTaskContext must be used in taskContextProvider");
+    throw new Error("useAuthContext must be used in authContextProvider");
   }
   return context;
 };

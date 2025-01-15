@@ -36,7 +36,7 @@ export const useSignIn = () => {
     } catch (err) {
       // Catch network or unexpected errors
       setLoading(false);
-      setError("Unable to create password. Please try again later.");
+      setError("Unable Sign in. Please try again later.");
       console.log(err);
     }
   };
