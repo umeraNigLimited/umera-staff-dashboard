@@ -1,20 +1,19 @@
 import { useState } from "react";
-import { useAuthContext } from "./useAuthContext";
+import { useImageContext } from "./useImageContext";
 
-export const useSignIn = () => {
+export const useImageUpload = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const { dispatch } = useAuthContext();
+  const { dispatch } = useImageContext();
 
-  const signIn = async (staff_id, office_email, password) => {
+  const uploadImage = async (image) => {
     // console.log(staff_id, confirm_password, password);
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch("http://localhost:29199/api/staff/login", {
+      const response = await fetch("http://localhost:29199/api/image/upload", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ staff_id, office_email, password }),
+        body: JSON.stringify(image),
       });
 
       const json = await response.json();
@@ -25,11 +24,8 @@ export const useSignIn = () => {
       }
 
       if (response.ok) {
-        //save user to local storage
-        localStorage.setItem("user", JSON.stringify(json.data));
-
         //update Auth Context
-        dispatch({ type: "LOGIN", payload: json.data });
+        // dispatch({ type: "ADD_IMAGE", payload: json.data });
 
         setLoading(false);
       }
@@ -41,5 +37,5 @@ export const useSignIn = () => {
     }
   };
 
-  return { signIn, error, loading, setError };
+  return { uploadImage, error, loading, setError };
 };

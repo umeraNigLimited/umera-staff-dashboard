@@ -3,7 +3,7 @@ import { LogOut } from "lucide-react";
 import { useLogOut } from "../hooks/useLogOut";
 
 const Logout = () => {
-  const { logout } = useLogOut;
+  const { logout } = useLogOut();
   function handleLogout() {
     logout();
   }

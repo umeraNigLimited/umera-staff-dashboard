@@ -32,7 +32,12 @@ const Announcement = () => {
       message: "Regular Updates will be made on the Dashboard",
     },
   ];
-  const [a, setA] = useState(false);
+  const [openIndex, setOpenIndex] = useState(null);
+
+  function handlePin() {
+    setOpenIndex(openIndex === index ? null : index);
+    console.log("It was clicked");
+  }
 
   return (
     <motion.div
@@ -45,19 +50,14 @@ const Announcement = () => {
       <div className="border-t border-gray-300 mb-4"></div>
       <div className="h-80 overflow-y-auto">
         {annoucements.length > 0 ? (
-          <ul
-            className="space-y-4"
-            onClick={() => {
-              setA(!a);
-              console.log("It was clicked");
-            }}
-          >
+          <ul className="space-y-4">
             {annoucements.map((item, index) => (
               <li
                 key={index}
-                className="relative bg-gray-100 p-4 rounded-lg shadow-sm"
+                className="relative bg-gray-100 p-4 rounded-lg shadow-sm pointer"
+                onClick={handlePin}
               >
-                {a || (index == 0 && <PinUnpin key={index} a={a} />)}
+                {openIndex === index && <PinUnpin />}
                 <h3 className="text-md font-semibold text-gray-800">
                   {item.title}
                 </h3>

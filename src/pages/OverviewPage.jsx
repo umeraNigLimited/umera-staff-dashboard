@@ -9,9 +9,6 @@ import { motion } from "framer-motion";
 
 import Header from "../components/common/Header";
 import StatCard from "../components/common/StatCard";
-import SalesOverviewChart from "../components/overview/Announcement";
-import CategoryDistributionChart from "../components/overview/CategoryDistributionChart";
-import RevenueChannelChart from "../components/overview/RevenueChannelChart ";
 import Celebration from "../components/overview/Celebration";
 import Announcement from "../components/overview/Announcement";
 import { useTasksContext } from "../components/hooks/useTasksContext";
@@ -94,7 +91,7 @@ const OverviewPage = () => {
           <Celebration />
           {/* <CategoryDistributionChart /> */}
           <TaskOverview />
-          <RevenueChannelChart />
+          {/* <RevenueChannelChart /> */}
         </div>
       </main>
     </div>

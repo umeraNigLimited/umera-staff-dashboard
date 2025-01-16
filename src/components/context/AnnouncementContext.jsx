@@ -1,8 +1,5 @@
 import React, { createContext, useEffect, useReducer } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
-const socket = io("http://localhost:29199");
-
-console.log(socket);
 
 export const AnnouncementContext = createContext();
 
