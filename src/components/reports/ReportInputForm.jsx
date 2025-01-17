@@ -73,7 +73,7 @@ const ReportInputForm = ({ onSubmit }) => {
           id="content"
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          className="w-full h-40 p-3 rounded-md bg-gray-100 border border-gray-300 text-gray-100 focus:ring-2 focus:ring-red-500 focus:outline-none text-gray-800"
+          className="w-full h-40 p-3 rounded-md bg-gray-100 border border-gray-300 text-gray-800 focus:ring-2 focus:ring-red-500 focus:outline-none text-gray-800"
           placeholder="Enter the detailed and comprehensive content of the report"
           required
         />
@@ -91,7 +91,7 @@ const ReportInputForm = ({ onSubmit }) => {
           id="chalenge"
           value={chalenge}
           onChange={(e) => setChalenge(e.target.value)}
-          className="w-full h-28 p-3 rounded-md bg-gray-100 border border-gray-300 text-gray-100 focus:ring-2 focus:ring-red-500 focus:outline-none"
+          className="w-full h-28 p-3 rounded-md bg-gray-100 border border-gray-300 text-gray-800 focus:ring-2 focus:ring-red-500 focus:outline-none"
           placeholder="Enter the detailed content of the report"
           required
         />
@@ -109,7 +109,7 @@ const ReportInputForm = ({ onSubmit }) => {
           id="gadget"
           value={gadget}
           onChange={(e) => setGadget(e.target.value)}
-          className="w-full h-20 p-3 rounded-md bg-gray-100 border border-gray-300 text-gray-100 focus:ring-2 focus:ring-red-500 focus:outline-none"
+          className="w-full h-20 p-3 rounded-md bg-gray-100 border border-gray-300 text-gray-800 focus:ring-2 focus:ring-red-500 focus:outline-none"
           placeholder="Enter the detailed content of the report"
         />
       </div>
@@ -126,7 +126,7 @@ const ReportInputForm = ({ onSubmit }) => {
           id="request"
           value={request}
           onChange={(e) => setRequest(e.target.value)}
-          className="w-full h-16 p-3 rounded-md bg-gray-100 border border-gray-300 text-gray-100 focus:ring-2 focus:ring-red-500 focus:outline-none"
+          className="w-full h-16 p-3 rounded-md bg-gray-800 border border-gray-300 text-gray-800 focus:ring-2 focus:ring-red-500 focus:outline-none"
           placeholder="Enter the detailed content of the report"
         />
       </div>
