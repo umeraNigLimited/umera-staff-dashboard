@@ -128,10 +128,15 @@ function CreatePassword() {
           {/* <a href="/new-staff" className="hover:text-[#890709]">
             NEW STAFF
           </a> */}
-          <a href="/reset-password" className="hover:text-[#890709] mt-2">
+          <a href="/login" className="hover:text-[#890709] mt-2 underline">
+            SIGN IN INSTEAD?
+          </a>
+          <a
+            href="/reset-password"
+            className="hover:text-[#890709] mt-2 underline"
+          >
             RESET PASSWORD
           </a>
-
           {error && <span className="text-red-500 mt-4">{error}</span>}
         </div>
       </div>

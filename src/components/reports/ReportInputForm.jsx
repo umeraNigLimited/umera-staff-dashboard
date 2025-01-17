@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 const ReportInputForm = ({ onSubmit }) => {
   const [content, setContent] = useState("");
@@ -17,7 +18,14 @@ const ReportInputForm = ({ onSubmit }) => {
 
     // Pass the form data to the parent via onSubmit callback
     onSubmit({ content, chalenge, gadget, request });
-
+    toast("Oshey! Serious UMéRA Staff 📥", {
+      position: "top-center",
+      autoClose: 5000, // Closes after 3 seconds
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
     // Clear the form
     setContent("");
     setChalenge("");

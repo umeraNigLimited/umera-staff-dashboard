@@ -10,6 +10,8 @@ import { QueryContextProvider } from "./components/context/QueryContext.jsx";
 import { ReportContextProvider } from "./components/context/ReportContext.jsx";
 import { AnnouncementContextProvider } from "./components/context/AnnouncementContext.jsx";
 import { ImageContextProvider } from "./components/context/ImageContext.jsx";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -21,6 +23,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
               <AnnouncementContextProvider>
                 <TasksContextProvider>
                   <App />
+                  <ToastContainer />
                 </TasksContextProvider>
               </AnnouncementContextProvider>
             </ReportContextProvider>

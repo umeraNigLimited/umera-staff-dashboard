@@ -9,6 +9,7 @@ import {
 } from "@tanstack/react-table";
 import { formatDistanceToNow, isBefore } from "date-fns";
 import "../../styles/overview-tasks.css";
+import { Plus } from "lucide-react";
 
 function TanStackTable({ d }) {
   const [pagination, setPagination] = useState({
@@ -17,6 +18,7 @@ function TanStackTable({ d }) {
   });
   const [sorting, setSorting] = useState([]);
   const [filtering, setFiltering] = useState("");
+  const list = ["to_do", "pending", "completed"];
 
   const data = useMemo(() => d || [], [d]);
 
@@ -24,30 +26,53 @@ function TanStackTable({ d }) {
     {
       header: "Tasks",
       accessorKey: "task_content",
+      size: 400,
       cell: (info) => info.getValue(),
     },
+    // {
+    //   header: "Status",
+    //   accessorKey: "status",
+    //   size: 100,
+    //   cell: (info) => (
+    // <span
+    //   className={`px-2 py-1 rounded-full ${
+    //     info.getValue()
+    //       ? "bg-green-100 text-green-800"
+    //       : "bg-red-100 text-red-800"
+    //   }`}
+    // >
+    //   {info.getValue() ? "Completed" : "Pending"}
+    // </span>
+    //     <span
+    //       className={`px-2 py-1 rounded-full ${
+    //         info.getValue() == "completed"
+    //           ? "bg-green-100 text-green-800"
+    //           : "bg-red-100 text-red-800"
+    //       }`}
+    //     >
+    //       {info.getValue()}
+    //     </span>
+    //   ),
+    // },
     {
-      header: "Status",
-      accessorKey: "status",
-      cell: (info) => (
-        <span
-          className={`px-2 py-1 rounded-full ${
-            info.getValue()
-              ? "bg-green-100 text-green-800"
-              : "bg-red-100 text-red-800"
-          }`}
-        >
-          {info.getValue() ? "Completed" : "Pending"}
-        </span>
-      ),
-    },
-    {
-      header: "Due Date",
+      header: " Due Date",
       accessorKey: "due_date",
       cell: (info) => {
-        const dueDate = new Date(info.getValue());
+        // Get the due_date value
+        const dueDateValue = info.getValue();
+
+        // Check if the due_date is valid (not null or undefined)
+        if (!dueDateValue) {
+          return <span className="text-gray-500">No due date</span>; // or any default text you want to show
+        }
+
+        const dueDate = new Date(dueDateValue);
         const now = new Date();
+
+        // Check if the due date is in the past
         const isPast = isBefore(dueDate, now);
+
+        // Format the time difference
         const timeText = formatDistanceToNow(dueDate);
 
         return (
@@ -81,10 +106,10 @@ function TanStackTable({ d }) {
   });
 
   // Debugging output
-  console.log("Data Length:", data.length);
-  console.log("Current Page Index:", table.getState().pagination.pageIndex);
-  console.log("Page Size:", table.getState().pagination.pageSize);
-  console.log("Total Pages:", table.getPageCount());
+  // console.log("Data Length:", data.length);
+  // console.log("Current Page Index:", table.getState().pagination.pageIndex);
+  // console.log("Page Size:", table.getState().pagination.pageSize);
+  // console.log("Total Pages:", table.getPageCount());
 
   return (
     <div>
@@ -96,6 +121,9 @@ function TanStackTable({ d }) {
           placeholder="Search tasks..."
           className="w-full max-w-md px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-800"
         />
+        {/* <span className="bg bg-red-800 cursor-pointer">
+          <Plus to="/task" />
+        </span> */}
       </div>
 
       <div className="overflow-x-auto bg-white shadow rounded-lg min-h-80">
@@ -158,7 +186,7 @@ function TanStackTable({ d }) {
           </button>
         </div>
 
-        <span className="text-sm text-gray-800">
+        <span className="text-sm text-gray-800 page-number">
           Page {table.getState().pagination.pageIndex + 1} of{" "}
           {table.getPageCount()}
         </span>

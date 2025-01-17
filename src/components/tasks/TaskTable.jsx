@@ -1,324 +1,3 @@
-// import React, { useState, useMemo } from "react";
-// import {
-//   useReactTable,
-//   getCoreRowModel,
-//   getSortedRowModel,
-//   flexRender,
-// } from "@tanstack/react-table";
-// import { Calendar, CirclePlus, PlusCircle, Trash } from "lucide-react";
-// import Confetti from "react-confetti";
-// import { useWindowSize } from "react-use";
-// import "../../styles/table.css";
-// import Avatar from "../common/Avatar";
-// import { useTasksContext } from "../hooks/useTasksContext";
-// import { format } from "date-fns";
-// import { useAuthContext } from "../hooks/useAuthContext";
-
-// const TaskTable = () => {
-//   const [task, setTask] = useState([]);
-//   const { tasks, dispatch } = useTasksContext();
-//   const [sections, setSections] = useState([
-//     { id: 1, name: "Todo", tasks: [] },
-//     { id: 2, name: "Doing", tasks: [] },
-//     { id: 3, name: "Done", tasks: [] },
-//   ]);
-
-//   const [assignee, setAsignee] = useState(false);
-//   const { user } = useAuthContext();
-
-//   const [globalFilter, setGlobalFilter] = useState("");
-//   const [showConfetti, setShowConfetti] = useState(false);
-//   const { width, height } = useWindowSize();
-
-//   const handleDelete = async () => {
-//     if (!user) {
-//       return;
-//     }
-//     const response = await fetch(`http://localhost:29199/api/task/${task_id}`, {
-//       method: "DELETE",
-//       headers: {
-//         Authorization: `Bearer ${user.token}`,
-//       },
-//     });
-
-//     const json = await response.json();
-
-//     if (response.ok) {
-//       dispatch({ type: "DELETE TASK", payload: json });
-//       setTask(tasks);
-//     }
-//   };
-
-//   const addSection = () => {
-//     const newSection = {
-//       id: sections.length + 1,
-//       name: `Section ${sections.length + 1}`,
-//       tasks: [],
-//     };
-//     setSections([...sections, newSection]);
-//   };
-
-//   const deleteSection = (sectionId) => {
-//     setSections((prevSections) =>
-//       prevSections.filter((section) => section.id !== sectionId)
-//     );
-//   };
-
-//   const addTask = (sectionId) => {
-//     setSections((prevSections) =>
-//       prevSections.map((section) =>
-//         section.id === sectionId
-//           ? {
-//               ...section,
-//               tasks: [
-//                 ...section.tasks,
-//                 {
-//                   id: section.tasks.length + 1,
-//                   task: "",
-//                   assignee: "",
-//                   dueDate: "",
-//                   priority: "Low",
-//                   completed: false,
-//                 },
-//               ],
-//             }
-//           : section
-//       )
-//     );
-//   };
-
-//   const updateTask = (sectionId, taskId, columnId, value) => {
-//     setSections((prevSections) =>
-//       prevSections.map((section) =>
-//         section.id === sectionId
-//           ? {
-//               ...section,
-//               tasks: section.tasks.map((task) =>
-//                 task.id === taskId ? { ...task, [columnId]: value } : task
-//               ),
-//             }
-//           : section
-//       )
-//     );
-//   };
-
-//   const deleteTask = (sectionId, taskId) => {
-//     setSections((prevSections) =>
-//       prevSections.map((section) =>
-//         section.id === sectionId
-//           ? {
-//               ...section,
-//               tasks: section.tasks.filter((task) => task.id !== taskId),
-//             }
-//           : section
-//       )
-//     );
-//   };
-
-//   const toggleCompletion = (sectionId, taskId) => {
-//     setSections((prevSections) =>
-//       prevSections.map((section) =>
-//         section.id === sectionId
-//           ? {
-//               ...section,
-//               tasks: section.tasks.map((task) =>
-//                 task.id === taskId
-//                   ? { ...task, completed: !task.completed }
-//                   : task
-//               ),
-//             }
-//           : section
-//       )
-//     );
-//     setShowConfetti(true);
-//     setTimeout(() => setShowConfetti(false), 2000);
-//   };
-
-//   const columns = useMemo(
-//     () => [
-//       {
-//         accessorKey: "task_content",
-//         header: "Task",
-//         cell: ({ row }) => (
-//           <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-//             <input
-//               type="checkbox"
-//               checked={row.original.completed}
-//               onChange={() =>
-//                 toggleCompletion(row.original.sectionId, row.original.id)
-//               }
-//               className="w-5 h-5"
-//             />
-//             <input
-//               type="text"
-//               value={row.original.task}
-//               onChange={(e) =>
-//                 updateTask(
-//                   row.original.sectionId,
-//                   row.original.id,
-//                   "task",
-//                   e.target.value
-//                 )
-//               }
-//               className="w-full rounded px-2 py-1 bg-transparent border border-gray-300 focus:ring-2 focus:ring-red-500 focus:outline-none text-gray-800"
-//               placeholder="Enter Task"
-//             />
-//           </div>
-//         ),
-//       },
-//       {
-//         accessorKey: "assignee",
-//         header: "Assignee",
-//         cell: ({ row }) =>
-//           assignee ? (
-//             <Avatar />
-//           ) : (
-//             <CirclePlus className="text-gray-600 hover:text-red-700" />
-//           ),
-//       },
-//       {
-//         accessorKey: "due_date",
-//         header: "Due Date",
-//         cell: ({ row }) => (
-//           <>
-//             {!row ? (
-//               <div className="relative inline-block">
-//                 <input
-//                   type="date"
-//                   id="date-picker"
-//                   value={row.original.dueDate}
-//                   onChange={(e) =>
-//                     updateTask(
-//                       row.original.sectionId,
-//                       row.original.id,
-//                       "dueDate",
-//                       e.target.value
-//                     )
-//                   }
-//                   class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-//                 />
-//                 <label
-//                   for="date-picker"
-//                   class="flex items-center justify-center w-12 h-12 bg-gray-100 rounded-full text-gray-600 hover:bg-gray-200 cursor-pointer"
-//                 >
-//                   <Calendar className="text-gray-600" />
-//                 </label>
-//               </div>
-//             ) : (
-//               format(new Date(row), "dd MM")
-//             )}
-//           </>
-//         ),
-//       },
-//       {
-//         accessorKey: "priority",
-//         header: "Priority",
-//         cell: ({ row }) => (
-//           <select
-//             value={row.original.priority}
-//             onChange={(e) =>
-//               updateTask(
-//                 row.original.sectionId,
-//                 row.original.id,
-//                 "priority",
-//                 e.target.value
-//               )
-//             }
-//             className="w-full border border-gray-300 rounded px-2 py-1 bg-transparent text-gray-600"
-//           >
-//             <option value="Low">Low</option>
-//             <option value="Medium">Medium</option>
-//             <option value="High">High</option>
-//           </select>
-//         ),
-//       },
-//       {
-//         accessorKey: "actions",
-//         header: "Actions",
-//         cell: ({ row }) => (
-//           <button
-//             onClick={() => deleteTask(row.original.sectionId, row.original.id)}
-//             className="text-red-500 hover:text-red-700"
-//           >
-//             <Trash size={16} />
-//           </button>
-//         ),
-//       },
-//     ],
-//     [toggleCompletion, updateTask, deleteTask]
-//   );
-
-//   return (
-//     <div className="p-4 bg-transparent min-h-screen">
-//       {showConfetti && <Confetti width={width} height={height} />}
-//       <h1 className="text-2xl font-bold mb-4 text-gray-900">Task Manager</h1>
-//       <button
-//         onClick={addSection}
-//         className="bg-green-500 text-white px-4 py-2 rounded flex items-center gap-1 mb-4"
-//       >
-//         <PlusCircle size={20} /> Add Section
-//       </button>
-
-//       {/* TABLE SECTION */}
-//       {sections.map((section) => (
-//         <div
-//           key={section.id}
-//           className="mb-8 p-4 bg-white bg-opacity-50 backdrop-blur-md overflow-hidden shadow-lg rounded-xl"
-//         >
-//           <div className="flex justify-between items-center mb-4">
-//             {/* SECTION NAME*/}
-//             <h2 className="text-xl font-bold text-gray-900">{section.name}</h2>
-//             <button
-//               onClick={() => deleteSection(section.id)}
-//               className="text-red-500 hover:text-red-700"
-//             >
-//               <Trash size={20} />
-//             </button>
-//           </div>
-//           <button
-//             onClick={() => addTask(section.id)}
-//             className="bg-blue-500 text-white px-4 py-2 rounded flex items-center gap-1 mb-4"
-//           >
-//             <PlusCircle size={20} /> Add Task
-//           </button>
-//           <div className="overflow-x-auto">
-//             <table className="w-full border bg-transparent rounded-lg">
-//               <thead className="">
-//                 {columns.map((column) => (
-//                   <th
-//                     key={column.accessorKey}
-//                     className="px-4 py-2 text-left text-gray-700"
-//                   >
-//                     {column.header}
-//                   </th>
-//                 ))}
-//               </thead>
-//               <tbody>
-//                 {section.tasks.map((task) => (
-//                   <tr
-//                     key={task.id}
-//                     className="hover:border hover:border-gray-100 hover:bg-gray-500 hover:bg-opacity-20 hover:shadow-lg border-t border-gray-300 bg-transparent"
-//                   >
-//                     {columns.map((column) => (
-//                       <td key={column.accessorKey} className="px-4 py-2">
-//                         {column.cell({
-//                           row: { original: { ...task, sectionId: section.id } },
-//                         })}
-//                       </td>
-//                     ))}
-//                   </tr>
-//                 ))}
-//               </tbody>
-//             </table>
-//           </div>
-//         </div>
-//       ))}
-//     </div>
-//   );
-// };
-
-// export default TaskTable;
-
 import React, { useMemo, useState } from "react";
 import {
   useReactTable,
@@ -329,10 +8,14 @@ import {
   getFilteredRowModel,
 } from "@tanstack/react-table";
 import { format, parseISO } from "date-fns";
-import { Calendar, Edit, Trash2 } from "lucide-react";
+import { Calendar, Edit, Plus, Trash2 } from "lucide-react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "../../styles/overview-tasks.css";
+import confetti from "canvas-confetti";
+import { toast } from "react-toastify";
+import { useTasksContext } from "../hooks/useTasksContext";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 function TaskTable({ d }) {
   const [pagination, setPagination] = useState({
@@ -341,20 +24,207 @@ function TaskTable({ d }) {
   });
   const [sorting, setSorting] = useState([]);
   const [filtering, setFiltering] = useState("");
-  const [datePickerValues, setDatePickerValues] = useState(
-    d.reduce((acc, task) => {
-      acc[task.id] = new Date(task.due_date);
-      return acc;
-    }, {})
-  );
+  // const [datePickerValues, setDatePickerValues] = useState(
+  //   d.reduce((acc, task) => {
+  //     acc[task.id] = new Date(task.due_date);
+  //     return acc;
+  //   }, {})
+  // );
+  const { dispatch } = useTasksContext();
+  const { user } = useAuthContext();
+  const [taskData, setTaskData] = useState(d);
+  // const [checked, setChecked] = useState(false);
+  const [checkboxStates, setCheckboxStates] = useState({});
 
-  const data = useMemo(() => d || [], [d]);
+  const newTask = {
+    task_content: "",
+    assignee: "",
+    priority: "low",
+    due_date: format(new Date(), "yyyy-MM-dd"),
+    status: "to_do",
+  };
+
+  function handleAddTask() {
+    fetch(`http://localhost:29199/api/task/`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newTask),
+      // body: JSON.stringify(updatedTask),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to add Task task");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Task updated successfully:", data);
+        setTaskData([data.data, ...taskData]);
+        dispatch({ type: "CREATE_TASK", payload: data.data });
+      })
+      .catch((error) => {
+        console.error("Error updating task:", error);
+      });
+
+    // setTaskData(prev => [newTask, ...prev])
+    // dispatch({
+    //   type: "CREATE_TASK",
+    //   payload: { task_content: "", assignee: "", due_date: "", status: "" },
+    // });
+  }
+
+  const handleCheckboxChange = (id, e) => {
+    setCheckboxStates((prevState) => ({
+      ...prevState,
+      [id]: e.target.checked,
+    }));
+
+    // Optional: Trigger any additional logic, like updating the backend
+    console.log(`Checkbox for task ${id} is now ${e.target.checked}`);
+
+    if (e.target.checked) {
+      // Trigger confetti
+      confetti({
+        particleCount: 100,
+        spread: 200,
+        origin: { y: 0.6 },
+      });
+      toast("Completed! Oblee for You my Gee 🎉", {
+        position: "top-center",
+        autoClose: 5000, // Closes after 3 seconds
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+
+      console.log("You don Complete this Task Oga mi");
+    }
+
+    console.log("Checkbox is checked:", e.target.checked);
+  };
+
+  function handleDeleteTask(id) {
+    const token = user?.token;
+
+    console.log(id, token);
+    if (!id || !token) {
+      console.error("Task ID or token is missing");
+      return;
+    }
+    toast("Sope Otilo!😦", {
+      position: "top-center",
+      autoClose: 3000, // Closes after 3 seconds
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
+
+    fetch(`http://localhost:29199/api/task/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+        "Content-Type": "application/json",
+      },
+      // body: JSON.stringify({ [updatedField]: value }),
+      // body: JSON.stringify(updatedTask),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to delete task");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Task Deleted successfully:", data);
+        dispatch({ type: "DELETE_TASK", payload: data.data });
+      })
+      .catch((error) => {
+        console.error("Error deleting  task:", error);
+      });
+  }
+
+  function handleUpdate(id, updatedField, value) {
+    // Update local state immediately for a responsive UI
+    setTaskData((prevData) =>
+      prevData.map((task) =>
+        task.task_id === id ? { ...task, [updatedField]: value } : task
+      )
+    );
+
+    // Get the updated task object
+    // const updatedTask = taskData.find((task) => task.task_id === id);
+
+    // Send the update to the server
+    fetch(`http://localhost:29199/api/task/${id}`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ [updatedField]: value }),
+      // body: JSON.stringify(updatedTask),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to update task");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (data && data.data) {
+          // Replace the updated task in the state
+          setTaskData((prevData) =>
+            prevData.map((task) =>
+              task.task_id === data.data.task_id ? data.data : task
+            )
+          );
+        }
+        console.log("Task updated successfully:", data);
+        dispatch({ type: "UPDATE_TASK", payload: data.data });
+      })
+      .catch((error) => {
+        console.error("Error updating task:", error);
+      });
+  }
+
+  const data = useMemo(() => taskData || [], [taskData]);
 
   const columns = [
     {
       header: "Tasks",
       accessorKey: "task_content",
-      cell: (info) => info.getValue(),
+      cell: (info) => {
+        return (
+          <div className="flex items-center space-x-3">
+            <input
+              id={info.row.original.task_id}
+              type="checkbox"
+              className="form-checkbox rounded-full h-5 w-5 transition duration-200 text-gray-800"
+              checked={checkboxStates[info.row.original.task_id] || false} // Default to false if not set
+              onChange={(e) =>
+                handleCheckboxChange(info.row.original.task_id, e)
+              }
+            />
+            <input
+              defaultValue={info.getValue()}
+              type="text"
+              onBlur={(e) =>
+                handleUpdate(
+                  info.row.original.task_id,
+                  "task_content",
+                  e.target.value
+                )
+              }
+              className="text-gray-800 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#890709] transition duration-200 bg-transparent w-full"
+            />
+          </div>
+        );
+      },
     },
     // {
     //   header: "Assignee",
@@ -364,43 +234,80 @@ function TaskTable({ d }) {
     {
       header: "Priority",
       accessorKey: "priority",
-      cell: (info) => <span>{info.getValue()}</span>,
+      cell: (info) => {
+        return (
+          <select
+            id="priority"
+            className="border rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-[#333] text-gray-800 transition duration-200"
+            value={info.row.original.priority}
+            onChange={(e) =>
+              // console.log(info.row.original);
+              handleUpdate(
+                info.row.original.task_id,
+                "priority",
+                e.target.value
+              )
+            }
+          >
+            <option value="high" className="text-red-500 font-bold">
+              High
+            </option>
+            <option value="medium" className="text-yellow-500 font-bold">
+              Medium
+            </option>
+            <option value="low" className="text-green-500 font-bold">
+              Low
+            </option>
+          </select>
+        );
+      },
     },
-    {
-      header: "Status",
-      accessorKey: "status",
-      cell: (info) => (
-        <span
-          className={`px-2 py-1 rounded-full ${
-            info.getValue()
-              ? "bg-green-100 text-green-800"
-              : "bg-red-100 text-red-800"
-          }`}
-        >
-          {info.getValue() ? "Completed" : "Pending"}
-        </span>
-      ),
-    },
+    // {
+    //   header: "Status",
+    //   accessorKey: "status",
+    //   cell: (info) => (
+    //     <span
+    //       className={`px-2 py-1 rounded-full ${
+    //         info.getValue()
+    //           ? "bg-green-100 text-green-800"
+    //           : "bg-red-100 text-red-800"
+    //       }`}
+    //     >
+    //       {info.getValue() ? "Completed" : "Pending"}
+    //     </span>
+    //   ),
+    // },
     {
       header: "Due Date",
       accessorKey: "due_date",
       cell: (info) => {
-        const id = info.row.original.id;
+        const id = info.row.original.task_id;
         const dueDate = info.getValue();
 
         // Parse the date or provide a fallback
         const parsedDate = dueDate ? parseISO(dueDate) : null;
 
+        // Convert to UTC date if parsedDate is not null
+        const handleDateChange = (date) => {
+          const utcDate = date
+            ? new Date(
+                Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
+              )
+            : null;
+
+          handleUpdate(
+            info.row.original.task_id,
+            "due_date",
+            utcDate ? utcDate.toISOString() : null
+          );
+        };
+
         return (
           <DatePicker
             selected={parsedDate}
-            onChange={(date) => {
-              handleSaveTask(id, {
-                due_date: date ? date.toISOString() : null,
-              });
-            }}
-            className="border rounded px-2 py-1"
-            dateFormat="d MMM"
+            onChange={handleDateChange}
+            className="border rounded px-2 py-1 w-20"
+            dateFormat="d MMM" // Adjust format if needed
             placeholderText="Select a date"
           />
         );
@@ -410,14 +317,16 @@ function TaskTable({ d }) {
       header: "Action",
       cell: (info) => (
         <div className="flex items-center gap-2">
-          <button
+          {/* <button
             onClick={() => console.log("Edit Task:", info.row.original)}
             className="p-2 text-blue-600 hover:bg-blue-100 rounded"
           >
             <Edit size={16} />
-          </button>
+          </button> */}
           <button
-            onClick={() => console.log("Delete Task:", info.row.original)}
+            onClick={() => {
+              handleDeleteTask(info.row.original.task_id);
+            }}
             className="p-2 text-red-600 hover:bg-red-100 rounded"
           >
             <Trash2 size={16} />
@@ -454,9 +363,12 @@ function TaskTable({ d }) {
           placeholder="Search tasks..."
           className="w-full max-w-md px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-800"
         />
+        <span className="bg bg-red-800 cursor-pointer" onClick={handleAddTask}>
+          <Plus to="/task" />
+        </span>
       </div>
 
-      <div className="overflow-x-auto bg-white shadow rounded-lg min-h-80">
+      <div className="overflow-x-auto bg-white shadow rounded-lg min-h-96">
         <table
           className="min-w-full border-collapse h-full"
           id="overview-tasks"
@@ -516,7 +428,7 @@ function TaskTable({ d }) {
           </button>
         </div>
 
-        <span className="text-sm text-gray-800">
+        <span className="text-sm text-gray-800 page-number">
           Page {table.getState().pagination.pageIndex + 1} of{" "}
           {table.getPageCount()}
         </span>

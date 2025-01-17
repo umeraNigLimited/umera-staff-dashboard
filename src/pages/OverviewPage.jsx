@@ -79,7 +79,7 @@ const OverviewPage = () => {
           <StatCard
             name="Productivity"
             icon={BarChart2}
-            value="12.5%"
+            value="0%"
             color="#10B981"
           />
         </motion.div>

@@ -1,9 +1,11 @@
-import React, { useState, useEffect, Suspense, lazy } from "react";
+import React, { useEffect, lazy, useState } from "react";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Layout from "./components/layout/Layout";
 import { useTasksContext } from "./components/hooks/useTasksContext";
 import { useAuthContext } from "./components/hooks/useAuthContext";
 import Loader from "./components/common/Loader";
+import ProfileUploadModal from "./components/common/Modal";
+import { useImageUpload } from "./components/hooks/useImageUpload";
 
 // Lazy-loaded components
 const OverviewPage = lazy(() => import("./pages/OverviewPage"));
@@ -19,28 +21,29 @@ const CreatePassword = lazy(() => import("./components/auth/CreatePassword"));
 
 function App() {
   const { dispatch } = useTasksContext();
+  const { uploadImage } = useImageUpload();
   const { user } = useAuthContext();
 
+  const authPaths = ["/login", "/create_password"];
+
+  // Fetch tasks when user logs in
   useEffect(() => {
     const fetchTask = async () => {
       try {
-        const response = await fetch(
-          "https://2332-160-152-196-95.ngrok-free.app/api/task/",
-          {
-            headers: {
-              Authorization: `Bearer ${user.token}`,
-            },
-          }
-        );
+        const response = await fetch("http://localhost:29199/api/task/", {
+          headers: {
+            Authorization: `Bearer ${user?.token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch tasks");
+        }
 
         const data = await response.json();
-
-        if (response.ok) {
-          dispatch({ type: "SET_TASK", payload: data.data });
-          console.log(data.data);
-        }
+        dispatch({ type: "SET_TASK", payload: data.data });
       } catch (err) {
-        console.error(err);
+        console.error("Error fetching tasks:", err);
       }
     };
 
@@ -49,35 +52,26 @@ function App() {
     }
   }, [dispatch, user]);
 
-  // useEffect(() => {
-  //   const validateToken = async () => {
-  //     try {
-  //       const response = await fetch("http://localhost:29199/api/validate", {
-  //         headers: {
-  //           Authorization: `Bearer ${user.token}`,
-  //         },
-  //       });
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  //       if (!response.ok) {
-  //         throw new Error("Invalid token");
-  //       }
-  //     } catch (err) {
-  //       console.error(err);
-  //       localStorage.removeItem("user"); // Remove invalid token
-  //       dispatch({ type: "LOGOUT" });
-  //     }
-  //   };
-
-  //   if (user) {
-  //     validateToken();
-  //   }
-  // }, [user, dispatch]);
+  const handleUpload = async (file) => {
+    console.log("File uploaded:", file);
+    // Add logic to send the file to the backend here
+    await uploadImage(file);
+  };
 
   return (
     <BrowserRouter>
+      {user && !authPaths.includes(location.pathname) && (
+        <ProfileUploadModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onUpload={handleUpload}
+        />
+      )}
       <Routes>
+        {/* Protected Routes */}
         <Route element={<Layout />}>
-          {/* Protected Routes */}
           <Route
             path="/overview"
             element={user ? <OverviewPage /> : <Navigate to="/login" />}

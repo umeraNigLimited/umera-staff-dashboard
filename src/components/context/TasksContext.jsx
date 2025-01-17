@@ -3,21 +3,51 @@ import React, { createContext, useReducer, useMemo } from "react";
 export const TasksContext = createContext();
 
 const tasksReducer = (state, action) => {
+  // switch (action.type) {
+  //   case "SET_TASK":
+  //     return {
+  //       tasks: action.payload,
+  //     };
+  //   case "CREATE_TASK":
+  //     return {
+  //       tasks: [...state.tasks, action.payload],
+  //     };
+  //   case "DELETE TASK":
+  //     return {
+  //       tasks: state.tasks.filter((task) => task !== action.payload.task_id),
+  //     };
+  //   default:
+  //     return state;
+  // }
   switch (action.type) {
     case "SET_TASK":
       return {
-        tasks: action.payload,
+        tasks: action.payload, // Replace the entire tasks array
       };
+
     case "CREATE_TASK":
       return {
-        tasks: [...state, action.payload],
+        tasks: [action.payload, ...state.tasks], // Add a new task to the array
       };
-    case "DELETE TASK":
+
+    case "UPDATE_TASK":
       return {
-        tasks: state.tasks.filter((task) => task !== action.payload.task_id),
+        tasks: state.tasks.map((task) =>
+          task.task_id === action.payload.task_id
+            ? [action.payload, ...state.tasks]
+            : task
+        ), // Update the specific task
       };
+
+    case "DELETE_TASK":
+      return {
+        tasks: state.tasks.filter(
+          (task) => task.task_id !== action.payload.task_id
+        ),
+      };
+
     default:
-      return state;
+      return state; // Return the current state for unknown action types
   }
 };
 
@@ -50,6 +80,8 @@ export const TasksContextProvider = ({ children }) => {
       lowPriorityTasks,
     };
   }, [state.tasks]);
+
+  console.log(state.tasks);
 
   return (
     <TasksContext.Provider value={{ ...state, metrics, dispatch }}>

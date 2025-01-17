@@ -3,4 +3,8 @@
   table tbody td:not(:first-child) {
     display: none;
   }
+
+  .page-number {
+    display: none;
+  }
 }

@@ -2,8 +2,10 @@ import { CameraIcon, User } from "lucide-react";
 import SettingSection from "./SettingSection";
 import { useImageContext } from "../hooks/useImageContext";
 import { useImageUpload } from "../hooks/useImageUpload";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const Profile = () => {
+  const { user } = useAuthContext();
   const { image } = useImageContext();
   const { uploadImage } = useImageUpload();
   const handleFileChange = async (event) => {
@@ -40,8 +42,10 @@ const Profile = () => {
         </div>
 
         <div>
-          <h3 className="text-lg font-semibold text-gray-100">Oluwabukola</h3>
-          <p className="text-gray-400">example@umera.ng</p>
+          <h3 className="text-lg font-semibold text-gray-100">
+            {user?.lastName}
+          </h3>
+          <p className="text-gray-400">{user?.email}</p>
         </div>
       </div>
 

@@ -26,28 +26,30 @@ export const ImageContextProvider = ({ children }) => {
   const { user } = useAuthContext();
 
   useEffect(() => {
-    // const fetchImage = async () => {
-    //   try {
-    //     const response = await fetch(
-    //       "http://localhost:29199/api/image/upload",
-    //       {
-    //         headers: {
-    //           Authorization: `Bearer ${user.token}`,
-    //         },
-    //       }
-    //     );
-    //     const data = await response.json();
-    //     if (response.ok) {
-    //       dispatch({ type: "SET_IMAGE", payload: data.data });
-    //       console.log(data.data);
-    //     }
-    //   } catch (err) {
-    //     console.error(err);
-    //   }
-    // };
-    // if (user) {
-    //   fetchImage();
-    // }
+    const fetchImage = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:29199/api/image/upload",
+          {
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
+          }
+        );
+        const data = await response.json();
+
+        if (response.ok) {
+          dispatch({ type: "SET_IMAGE", payload: data.data });
+          console.log(data.data);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    if (user) {
+      fetchImage();
+    }
   }, [dispatch, user]);
 
   console.log("This is it", state.image);

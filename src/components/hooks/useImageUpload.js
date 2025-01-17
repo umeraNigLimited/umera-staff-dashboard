@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useImageContext } from "./useImageContext";
+import { useAuthContext } from "./useAuthContext";
 
 export const useImageUpload = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const { user } = useAuthContext();
   const { dispatch } = useImageContext();
 
   const uploadImage = async (image) => {
@@ -13,10 +15,15 @@ export const useImageUpload = () => {
     try {
       const response = await fetch("http://localhost:29199/api/image/upload", {
         method: "POST",
-        body: JSON.stringify(image),
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+          "Content-Type": "multipart/form-data",
+        },
+        body: image,
       });
 
       const json = await response.json();
+      console.log(json);
 
       if (!response.ok) {
         setLoading(false);

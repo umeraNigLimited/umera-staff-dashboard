@@ -6,7 +6,7 @@ const Celebration = () => {
   const celebrations = [
     { id: 1, type: "Birthday", name: "Yemi Olo", date: "Jan 15" },
     { id: 2, type: "Anniversary", name: "Team Project Alpha", date: "Jan 18" },
-    { id: 3, type: "Milestone", name: "Company's 10th Year", date: "Jan 20" },
+    { id: 3, type: "Milestone", name: "Company's 5th Year", date: "October 1" },
   ];
 
   return (

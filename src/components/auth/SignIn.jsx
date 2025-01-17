@@ -114,11 +114,20 @@ function SignIn() {
           {/* <a href="/new-staff" className="hover:text-[#890709]">
             NEW STAFF
           </a> */}
-          <a href="/reset-password" className="hover:text-[#890709] mt-2">
-            RESET PASSWORD / CREATE PASSWORD
+          <a
+            href="/create_password"
+            className="hover:text-[#890709] mt-2 underline"
+          >
+            CREATE PASSWORD
           </a>
+          <a
+            href="/reset-password"
+            className="hover:text-[#890709] mt-2 underline"
+          >
+            RESET PASSWORD
+          </a>
+          {error && <span className="text-red-500 mt-4">{error}</span>}
         </div>
-        {error && <span className="text-red-500 mt-4">{error}</span>}
       </div>
 
       {/* Footer */}

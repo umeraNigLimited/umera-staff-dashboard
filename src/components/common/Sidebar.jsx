@@ -23,12 +23,12 @@ const SIDEBAR_ITEMS = [
   },
   { name: "Tasks", icon: ClipboardCheck, color: "white", href: "/tasks" },
   { name: "Report", icon: TrendingUp, color: "white", href: "/reports" },
-  {
-    name: "Productivity",
-    icon: BarChart2,
-    color: "white",
-    href: "/Productivity",
-  },
+  // {
+  //   name: "Productivity",
+  //   icon: BarChart2,
+  //   color: "white",
+  //   href: "/Productivity",
+  // },
   { name: "Broadcast", icon: Volume1, color: "white", href: "/broadcast" },
   //   { name: "Orders", icon: ShoppingCart, color: "#F59E0B", href: "/orders" },
   { name: "Settings", icon: Settings, color: "white", href: "/settings" },
