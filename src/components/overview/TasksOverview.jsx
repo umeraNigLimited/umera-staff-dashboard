@@ -15,7 +15,7 @@ const TaskOverview = () => {
         transition={{ delay: 0.4 }}
       >
         <h2 className="text-lg font-medium mb-4 text-gray-900">Tasks</h2>
-        <p>No tasks available.</p>
+        <p className="text-gray-900">No tasks available.</p>
       </motion.div>
     );
   }
