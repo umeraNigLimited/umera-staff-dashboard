@@ -1,22 +1,26 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "./useAuthContext";
 
 export const useCreatePassword = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const { dispatch } = useAuthContext();
+  const navigate = useNavigate();
 
   const createPassword = async (staff_id, password) => {
     // console.log(staff_id, confirm_password, password);
     setLoading(true);
     setError(null);
+
+    console.log(staff_id, password);
     try {
       const response = await fetch(
         "https://59c4-102-89-82-105.ngrok-free.app/api/staff/create_password",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ staff_id, password }),
+          body: JSON.stringify({ staff_id: staff_id, password: password }),
         }
       );
 
@@ -31,10 +35,12 @@ export const useCreatePassword = () => {
 
       if (response.ok) {
         //save user to local storage
-        localStorage.setItem("user", JSON.stringify(json));
+        // localStorage.setItem("user", JSON.stringify(json));
+
+        navigate("/login");
 
         //update Auth Context
-        dispatch({ type: "LOGIN", payload: json });
+        // dispatch({ type: "LOGIN", payload: json });
 
         setLoading(false);
       }
