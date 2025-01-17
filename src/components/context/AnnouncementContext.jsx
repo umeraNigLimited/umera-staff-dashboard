@@ -27,7 +27,7 @@ export const AnnouncementContextProvider = ({ children }) => {
 
   useEffect(() => {
     // Socket connection
-    const socket = io("http://localhost:29199");
+    const socket = io("https://59c4-102-89-82-105.ngrok-free.app");
 
     socket.on("broadcast_announcement", (announcement) => {
       dispatch({ type: "ADD_ANNOUNCEMENT", payload: announcement });
@@ -38,7 +38,7 @@ export const AnnouncementContextProvider = ({ children }) => {
     const fetchAnnouncement = async () => {
       try {
         const response = await fetch(
-          "http://localhost:29199/api/announcement/",
+          "https://59c4-102-89-82-105.ngrok-free.app/api/announcement/",
           {
             headers: {
               Authorization: `Bearer ${user?.token}`, // Ensure token is available

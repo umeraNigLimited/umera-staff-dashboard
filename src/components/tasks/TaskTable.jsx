@@ -45,7 +45,7 @@ function TaskTable({ d }) {
   };
 
   function handleAddTask() {
-    fetch(`http://localhost:29199/api/task/`, {
+    fetch(`https://59c4-102-89-82-105.ngrok-free.app/`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${user.token}`,
@@ -124,7 +124,7 @@ function TaskTable({ d }) {
       draggable: true,
     });
 
-    fetch(`http://localhost:29199/api/task/${id}`, {
+    fetch(`https://59c4-102-89-82-105.ngrok-free.app/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${user.token}`,
@@ -160,7 +160,7 @@ function TaskTable({ d }) {
     // const updatedTask = taskData.find((task) => task.task_id === id);
 
     // Send the update to the server
-    fetch(`http://localhost:29199/api/task/${id}`, {
+    fetch(`https://59c4-102-89-82-105.ngrok-free.app/${id}`, {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${user.token}`,

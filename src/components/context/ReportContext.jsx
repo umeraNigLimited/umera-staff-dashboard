@@ -28,7 +28,9 @@ export const ReportContextProvider = ({ children }) => {
   useEffect(() => {
     const fetchReport = async () => {
       try {
-        const response = await fetch("http://localhost:29199/api/report/");
+        const response = await fetch(
+          "https://59c4-102-89-82-105.ngrok-free.app/api/report/"
+        );
         const data = await response.json();
 
         if (response.ok) {

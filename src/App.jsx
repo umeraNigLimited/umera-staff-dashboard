@@ -30,11 +30,14 @@ function App() {
   useEffect(() => {
     const fetchTask = async () => {
       try {
-        const response = await fetch("http://localhost:29199/api/task/", {
-          headers: {
-            Authorization: `Bearer ${user?.token}`,
-          },
-        });
+        const response = await fetch(
+          "https://59c4-102-89-82-105.ngrok-free.app/api/task/",
+          {
+            headers: {
+              Authorization: `Bearer ${user?.token}`,
+            },
+          }
+        );
 
         if (!response.ok) {
           throw new Error("Failed to fetch tasks");

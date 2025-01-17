@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import DatePicker from "react-datepicker";
 import { toast } from "react-toastify";
 
 const ReportInputForm = ({ onSubmit }) => {
@@ -6,6 +7,7 @@ const ReportInputForm = ({ onSubmit }) => {
   const [chalenge, setChalenge] = useState("");
   const [gadget, setGadget] = useState("");
   const [request, setRequest] = useState("");
+  const [date, setDate] = useState(new Date());
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -128,6 +130,8 @@ const ReportInputForm = ({ onSubmit }) => {
           placeholder="Enter the detailed content of the report"
         />
       </div>
+
+      {/* <DatePicker selected={{}} onChange={{}} /> */}
 
       {/* Content Input */}
       {/* <div>

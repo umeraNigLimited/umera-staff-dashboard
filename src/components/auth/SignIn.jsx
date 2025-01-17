@@ -57,7 +57,7 @@ function SignIn() {
               id="staff_id"
               name="staff_id"
               type="text"
-              placeholder="UMS201125010"
+              placeholder="UME2011250101"
               value={input.staff_id}
               onChange={handleChange}
               className="mt-1 block w-full px-4 py-2 border rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-[#890709] focus:border-[#890709]"
