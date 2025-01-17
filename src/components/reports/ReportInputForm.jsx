@@ -90,7 +90,7 @@ const ReportInputForm = ({ onSubmit }) => {
         <textarea
           id="chalenge"
           value={chalenge}
-          onChange={(e) => setContent(e.target.value)}
+          onChange={(e) => setChalenge(e.target.value)}
           className="w-full h-28 p-3 rounded-md bg-gray-100 border border-gray-300 text-gray-100 focus:ring-2 focus:ring-red-500 focus:outline-none"
           placeholder="Enter the detailed content of the report"
           required
@@ -108,7 +108,7 @@ const ReportInputForm = ({ onSubmit }) => {
         <textarea
           id="gadget"
           value={gadget}
-          onChange={(e) => setContent(e.target.value)}
+          onChange={(e) => setGadget(e.target.value)}
           className="w-full h-20 p-3 rounded-md bg-gray-100 border border-gray-300 text-gray-100 focus:ring-2 focus:ring-red-500 focus:outline-none"
           placeholder="Enter the detailed content of the report"
         />
@@ -125,7 +125,7 @@ const ReportInputForm = ({ onSubmit }) => {
         <textarea
           id="request"
           value={request}
-          onChange={(e) => setContent(e.target.value)}
+          onChange={(e) => setRequest(e.target.value)}
           className="w-full h-16 p-3 rounded-md bg-gray-100 border border-gray-300 text-gray-100 focus:ring-2 focus:ring-red-500 focus:outline-none"
           placeholder="Enter the detailed content of the report"
         />
