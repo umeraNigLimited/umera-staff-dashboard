@@ -41,7 +41,7 @@ const Profile = () => {
           <CameraIcon className="absolute bottom-0 right-0 bg-white p-1 rounded-full shadow text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
         </div>
 
-        <div className="flex items-center justify-center">
+        <div>
           <h3 className="text-lg font-semibold text-gray-100">
             {user?.lastName}
           </h3>
