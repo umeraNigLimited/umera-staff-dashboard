@@ -154,7 +154,7 @@ const ReportInputForm = ({ onSubmit }) => {
       {/* Submit Button */}
       <button
         type="submit"
-        className="w-full bg-red-800 text-white py-2 px-4 rounded-md font-medium hover:bg-blue-700 transition"
+        className="w-full bg-red-800 text-white py-2 px-4 rounded-md font-medium hover:bg-red-700 transition"
       >
         Submit Report
       </button>
