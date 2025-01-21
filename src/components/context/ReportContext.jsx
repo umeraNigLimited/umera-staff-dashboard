@@ -11,7 +11,7 @@ const reportReducer = (state, action) => {
       };
     case "CREATE_REPORT":
       return {
-        report: [...state, action.payload],
+        report: [action.payload, ...state.report],
       };
     default:
       return state;
@@ -20,7 +20,7 @@ const reportReducer = (state, action) => {
 
 export const ReportContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reportReducer, {
-    report: null,
+    report: [],
   });
 
   const { user } = useAuthContext();
@@ -28,9 +28,7 @@ export const ReportContextProvider = ({ children }) => {
   useEffect(() => {
     const fetchReport = async () => {
       try {
-        const response = await fetch(
-          "https://59c4-102-89-82-105.ngrok-free.app/api/report/"
-        );
+        const response = await fetch("http://localhost:29199/api/report/");
         const data = await response.json();
 
         if (response.ok) {

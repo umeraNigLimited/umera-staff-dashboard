@@ -29,7 +29,7 @@ export const ImageContextProvider = ({ children }) => {
     const fetchImage = async () => {
       try {
         const response = await fetch(
-          "https://59c4-102-89-82-105.ngrok-free.app/api/image/upload",
+          "http://localhost:29199/api/image/upload",
           {
             headers: {
               Authorization: `Bearer ${user.token}`,

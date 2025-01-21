@@ -13,17 +13,14 @@ export const useImageUpload = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(
-        "https://59c4-102-89-82-105.ngrok-free.app/api/image/upload",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-            "Content-Type": "multipart/form-data",
-          },
-          body: image,
-        }
-      );
+      const response = await fetch("http://localhost:29199/api/image/upload", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+          "Content-Type": "multipart/form-data",
+        },
+        body: image,
+      });
 
       const json = await response.json();
       console.log(json);

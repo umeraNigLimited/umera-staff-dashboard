@@ -16,7 +16,7 @@ export const useCreatePassword = () => {
     console.log(staff_id, password);
     try {
       const response = await fetch(
-        "https://59c4-102-89-82-105.ngrok-free.app/api/staff/create_password",
+        "http://localhost:29199/api/staff/create_password",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

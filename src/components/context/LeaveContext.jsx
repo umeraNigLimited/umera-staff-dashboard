@@ -34,14 +34,11 @@ export const LeaveContextProvider = ({ children }) => {
   useEffect(() => {
     const fetchLeave = async () => {
       try {
-        const response = await fetch(
-          "https://59c4-102-89-82-105.ngrok-free.app/api/leave/",
-          {
-            headers: {
-              Authorization: `Bearer ${user.token}`,
-            },
-          }
-        );
+        const response = await fetch("http://localhost:29199/api/leave/", {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        });
         const data = await response.json();
 
         if (response.ok) {

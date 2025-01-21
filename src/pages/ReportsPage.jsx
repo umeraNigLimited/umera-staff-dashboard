@@ -137,6 +137,7 @@ const AnalyticsPage = () => {
   };
 
   const { report } = useReportContext();
+  console.log(report);
 
   return (
     <div className="flex-1 overflow-auto relative z-10 bg-gray-200">

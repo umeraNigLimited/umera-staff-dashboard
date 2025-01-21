@@ -30,7 +30,7 @@ function TaskTable({ d }) {
   //     return acc;
   //   }, {})
   // );
-  const { dispatch } = useTasksContext();
+  const { dispatch, tasks } = useTasksContext();
   const { user } = useAuthContext();
   const [taskData, setTaskData] = useState(d);
   // const [checked, setChecked] = useState(false);
@@ -45,7 +45,7 @@ function TaskTable({ d }) {
   };
 
   function handleAddTask() {
-    fetch(`https://59c4-102-89-82-105.ngrok-free.app/`, {
+    fetch(`http://localhost:29199/api/task`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${user.token}`,
@@ -124,7 +124,7 @@ function TaskTable({ d }) {
       draggable: true,
     });
 
-    fetch(`https://59c4-102-89-82-105.ngrok-free.app/${id}`, {
+    fetch(`http://localhost:29199/api/task/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${user.token}`,
@@ -140,6 +140,9 @@ function TaskTable({ d }) {
         return response.json();
       })
       .then((data) => {
+        setTaskData((prevData) =>
+          prevData.filter((task) => task.task_id !== id)
+        );
         console.log("Task Deleted successfully:", data);
         dispatch({ type: "DELETE_TASK", payload: data.data });
       })
@@ -151,16 +154,18 @@ function TaskTable({ d }) {
   function handleUpdate(id, updatedField, value) {
     // Update local state immediately for a responsive UI
     setTaskData((prevData) =>
-      prevData.map((task) =>
-        task.task_id === id ? { ...task, [updatedField]: value } : task
-      )
+      prevData.map((task) => {
+        console.log("task_id", task.task_id);
+        console.log("id", id);
+        return task.task_id === id ? { ...task, [updatedField]: value } : task;
+      })
     );
 
     // Get the updated task object
     // const updatedTask = taskData.find((task) => task.task_id === id);
 
     // Send the update to the server
-    fetch(`https://59c4-102-89-82-105.ngrok-free.app/${id}`, {
+    fetch(`http://localhost:29199/api/task/${id}`, {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${user.token}`,
@@ -178,17 +183,25 @@ function TaskTable({ d }) {
       .then((data) => {
         if (data && data.data) {
           // Replace the updated task in the state
+          console.log("data", data.data.task_id);
           setTaskData((prevData) =>
-            prevData.map((task) =>
-              task.task_id === data.data.task_id ? data.data : task
-            )
+            prevData.map((task) => {
+              console.log("data task id", task.task_id);
+              return task.task_id === data.data.task_id ? data.data : task;
+            })
           );
+          dispatch({ type: "UPDATE_TASK", payload: data.data });
+          console.log("data tasks global", tasks);
         }
         console.log("Task updated successfully:", data);
-        dispatch({ type: "UPDATE_TASK", payload: data.data });
       })
       .catch((error) => {
         console.error("Error updating task:", error);
+        // setTaskData((prevData) =>
+        //   prevData.map((task) =>
+        //     task.task_id === id ? { ...task, [updatedField]: value } : task
+        //   )
+        // );
       });
   }
 
@@ -240,14 +253,14 @@ function TaskTable({ d }) {
             id="priority"
             className="border rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-[#333] text-gray-800 transition duration-200"
             value={info.row.original.priority}
-            onChange={(e) =>
-              // console.log(info.row.original);
+            onChange={(e) => {
+              // console.log(e.target.value, info.row.original.task_id);
               handleUpdate(
                 info.row.original.task_id,
                 "priority",
                 e.target.value
-              )
-            }
+              );
+            }}
           >
             <option value="high" className="text-red-500 font-bold">
               High
@@ -295,11 +308,7 @@ function TaskTable({ d }) {
               )
             : null;
 
-          handleUpdate(
-            info.row.original.task_id,
-            "due_date",
-            utcDate ? utcDate.toISOString() : null
-          );
+          handleUpdate(id, "due_date", utcDate ? utcDate.toISOString() : null);
         };
 
         return (

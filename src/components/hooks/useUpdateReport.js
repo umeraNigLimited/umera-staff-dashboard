@@ -13,7 +13,7 @@ export const useUpdateReport = () => {
     setError(null);
     try {
       const response = await fetch(
-        `https://59c4-102-89-82-105.ngrok-free.app/report/${report_id}`,
+        `http://localhost:29199/report/${report_id}`,
         {
           method: "PATCH",
           headers: {

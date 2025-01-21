@@ -32,14 +32,11 @@ export const QueryContextProvider = ({ children }) => {
   useEffect(() => {
     const fetchQuery = async () => {
       try {
-        const response = await fetch(
-          "https://59c4-102-89-82-105.ngrok-free.app/api/query/",
-          {
-            headers: {
-              Authorization: `Bearer ${user.token}`,
-            },
-          }
-        );
+        const response = await fetch("http://localhost:29199/api/query/", {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        });
         const data = await response.json();
 
         if (response.ok) {

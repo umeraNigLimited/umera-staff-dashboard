@@ -6,6 +6,7 @@ import { useAuthContext } from "./components/hooks/useAuthContext";
 import Loader from "./components/common/Loader";
 import ProfileUploadModal from "./components/common/Modal";
 import { useImageUpload } from "./components/hooks/useImageUpload";
+import { toast } from "react-toastify";
 
 // Lazy-loaded components
 const OverviewPage = lazy(() => import("./pages/OverviewPage"));
@@ -31,8 +32,9 @@ function App() {
     const fetchTask = async () => {
       try {
         const response = await fetch(
-          "https://59c4-102-89-82-105.ngrok-free.app/api/task/",
+          "https://backend-ums.onrender.com/api/task",
           {
+            method: "GET",
             headers: {
               Authorization: `Bearer ${user?.token}`,
             },
@@ -40,11 +42,26 @@ function App() {
         );
 
         if (!response.ok) {
-          throw new Error("Failed to fetch tasks");
+          toast(`${response.statusText}`, {
+            position: "top-center",
+            autoClose: 5000, // Closes after 3 seconds
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
+
+          const timeOut = setTimeout(() => {
+            localStorage.removeItem("user");
+            window.location.href = "/login";
+          }, 7000);
+
+          return () => clearTimeout(timeOut);
         }
 
         const data = await response.json();
         dispatch({ type: "SET_TASK", payload: data.data });
+        console.log("here", data.data);
       } catch (err) {
         console.error("Error fetching tasks:", err);
       }

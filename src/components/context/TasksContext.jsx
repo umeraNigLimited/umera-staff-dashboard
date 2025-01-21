@@ -79,9 +79,9 @@ export const TasksContextProvider = ({ children }) => {
       mediumPriorityTasks,
       lowPriorityTasks,
     };
-  }, [state.tasks]);
+  }, [dispatch, state.tasks]);
 
-  console.log(state.tasks);
+  console.log("there is task context", state.tasks);
 
   return (
     <TasksContext.Provider value={{ ...state, metrics, dispatch }}>
