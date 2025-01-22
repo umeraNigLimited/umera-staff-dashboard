@@ -27,7 +27,7 @@ export const AnnouncementContextProvider = ({ children }) => {
 
   useEffect(() => {
     // Socket connection
-    const socket = io("https://backend-ums.onrender.com", {
+    const socket = io("http://localhost:29199", {
       withCredentials: true, // Required if using cookies
     });
 
