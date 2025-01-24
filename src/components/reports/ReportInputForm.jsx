@@ -266,7 +266,7 @@ const ReportInputForm = ({ setCreateReport }) => {
               Previous
             </button>
           )}
-          {currentStep < 6 ? (
+          {currentStep < 7 ? (
             <button
               type="button"
               onClick={handleNextStep}
