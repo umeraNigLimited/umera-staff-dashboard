@@ -6,6 +6,7 @@ import { useAuthContext } from "./components/hooks/useAuthContext";
 import Loader from "./components/common/Loader";
 import ProfileUploadModal from "./components/common/Modal";
 import { useImageUpload } from "./components/hooks/useImageUpload";
+import { Analytics } from "@vercel/analytics/react";
 import { toast } from "react-toastify";
 
 // Lazy-loaded components
@@ -138,6 +139,7 @@ function App() {
           element={<Navigate to={user ? "/overview" : "/login"} />}
         />
       </Routes>
+      <Analytics />
     </BrowserRouter>
   );
 }

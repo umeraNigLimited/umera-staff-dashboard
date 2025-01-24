@@ -9,7 +9,7 @@ export const useLogOut = () => {
     //Remove user from local Storage
     localStorage.removeItem("user");
 
-    tasksDispatch({ type: "SET_TASK", payload: { tasks: [] } });
+    tasksDispatch({ type: "SET_TASK", payload: [] });
 
     //Clear Global State
     dispatch({ type: "LOGOUT" });
