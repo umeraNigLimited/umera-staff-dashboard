@@ -28,13 +28,13 @@ export const AnnouncementContextProvider = ({ children }) => {
   const { user } = useAuthContext();
 
   useEffect(() => {
-    Notification.requestPermission().then((permission) => {
-      if (permission === "granted") {
-        console.log("Notification permission granted.");
-      } else {
-        console.error("Notification permission denied.");
-      }
-    });
+    // Notification.requestPermission().then((permission) => {
+    //   if (permission === "granted") {
+    //     console.log("Notification permission granted.");
+    //   } else {
+    //     console.error("Notification permission denied.");
+    //   }
+    // });
 
     // Socket connection
     const socket = io(`${API_URL}`, {
@@ -44,21 +44,21 @@ export const AnnouncementContextProvider = ({ children }) => {
     socket.on("broadcast_announcement", (announcement) => {
       dispatch({ type: "ADD_ANNOUNCEMENT", payload: announcement });
 
-      if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.ready.then((registration) => {
-          registration.showNotification(announcement.title, {
-            body: announcement.body,
-            // icon: data.icon,
-            // actions: data.actions,
-            // data: data.url,
-          });
-        });
-      } else {
-        new Notification(data.title, {
-          body: data.body,
-          // icon: data.icon,
-        });
-      }
+      // if ("serviceWorker" in navigator) {
+      //   navigator.serviceWorker.ready.then((registration) => {
+      //     registration.showNotification(announcement.title, {
+      //       body: announcement.body,
+      //       // icon: data.icon,
+      //       // actions: data.actions,
+      //       // data: data.url,
+      //     });
+      //   });
+      // } else {
+      //   new Notification(data.title, {
+      //     body: data.body,
+      //     // icon: data.icon,
+      //   });
+      // }
       // console.log("From socket io", announcement);
     });
 

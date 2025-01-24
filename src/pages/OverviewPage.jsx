@@ -23,17 +23,17 @@ const OverviewPage = () => {
   const { leaveMetrics } = useLeaveContext();
   const { queryMetrics } = useQueryContext();
 
-  useEffect(() => {
-    if ("Notification" in window) {
-      Notification.requestPermission().then((permission) => {
-        if (permission === "granted") {
-          console.log("Browser notifications enabled");
-        } else {
-          console.log("Browser notifications denied");
-        }
-      });
-    }
-  }, []);
+  // useEffect(() => {
+  //   if ("Notification" in window) {
+  //     Notification.requestPermission().then((permission) => {
+  //       if (permission === "granted") {
+  //         console.log("Browser notifications enabled");
+  //       } else {
+  //         console.log("Browser notifications denied");
+  //       }
+  //     });
+  //   }
+  // }, []);
 
   const processTasks = () => {
     return tasks.map((task) => {

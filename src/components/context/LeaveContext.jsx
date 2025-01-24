@@ -1,6 +1,8 @@
 import React, { createContext, useReducer, useMemo, useEffect } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export const LeaveContext = createContext();
 
 const leaveReducer = (state, action) => {
@@ -34,7 +36,7 @@ export const LeaveContextProvider = ({ children }) => {
   useEffect(() => {
     const fetchLeave = async () => {
       try {
-        const response = await fetch("http://localhost:29199/api/leave/", {
+        const response = await fetch(`${API_URL}/api/leave/`, {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },

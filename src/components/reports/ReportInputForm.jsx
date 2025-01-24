@@ -223,7 +223,7 @@ const ReportInputForm = ({ setCreateReport }) => {
               value={request}
               onChange={(e) => setRequest(e.target.value)}
               className="w-full h-48 p-3 rounded-md border border-gray-300 text-gray-800 focus:ring-2 focus:ring-red-500 focus:outline-none"
-              placeholder="Describe official gadgets used"
+              placeholder="Describe official your official request"
             />
           </div>
         );
@@ -266,7 +266,7 @@ const ReportInputForm = ({ setCreateReport }) => {
               Previous
             </button>
           )}
-          {currentStep < 7 ? (
+          {currentStep < 6 ? (
             <button
               type="button"
               onClick={handleNextStep}
