@@ -47,7 +47,7 @@ const Report = ({ data }) => {
   return (
     <motion.div
       className={`bg-gray-100 bg-opacity-50 backdrop-blur-md shadow-lg rounded-xl p-6 border transition-all duration-300 ${
-        isExpanded ? "max-h-screen" : "max-h-64"
+        isExpanded ? "h-auto" : "max-h-64"
       }`}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -79,7 +79,7 @@ const Report = ({ data }) => {
             <textarea
               key={field}
               disabled={!editReport}
-              className="w-full h-auto p-3 bg-gray-900 border border-gray-700 rounded-md text-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none resize-none overflow-auto mb-4"
+              className="w-full h-auto min-h-40 p-3 bg-gray-900 border border-gray-700 rounded-md text-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none resize-none overflow-auto mb-4"
               value={updatedReport[field]}
               onChange={(e) => handleChange(field, e.target.value)}
               onInput={autoResize}
