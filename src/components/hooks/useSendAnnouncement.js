@@ -2,6 +2,8 @@ import { useAnnouncementContext } from "./useAnnouncementContext";
 import { useAuthContext } from "./useAuthContext";
 import { useState } from "react";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export const useSendAnnouncement = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -12,7 +14,7 @@ export const useSendAnnouncement = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch("http://localhost:29199/api/announcement/", {
+      const response = await fetch(`${API_URL}/api/announcement/`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${user.token}`,
@@ -21,7 +23,7 @@ export const useSendAnnouncement = () => {
         body: JSON.stringify(annoucement),
       });
 
-      console.log(annoucement);
+      // console.log(annoucement);
 
       const json = await response.json();
 
@@ -32,8 +34,8 @@ export const useSendAnnouncement = () => {
 
       if (response.ok) {
         //update Report Context
-        dispatch({ type: "SET_ANNOUNCEMENT", payload: json.data });
-        console.log("json data", json.data);
+        // dispatch({ type: "ADD_ANNOUNCEMENT", payload: json.data });
+        // console.log("json data", json.data);
 
         setLoading(false);
       }

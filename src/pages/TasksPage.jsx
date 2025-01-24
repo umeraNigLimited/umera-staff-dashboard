@@ -9,9 +9,9 @@ import {
   Package,
   TrendingUp,
 } from "lucide-react";
-import CategoryDistributionChart from "../components/overview/CategoryDistributionChart";
-import SalesTrendChart from "../components/products/SalesTrendChart";
-import ProductsTable from "../components/products/ProductsTable";
+// import CategoryDistributionChart from "../components/overview/CategoryDistributionChart";
+// import SalesTrendChart from "../components/products/SalesTrendChart";
+// import ProductsTable from "../components/products/ProductsTable";
 import TaskTable from "../components/tasks/TaskTable";
 import { useTasksContext } from "../components/hooks/useTasksContext";
 

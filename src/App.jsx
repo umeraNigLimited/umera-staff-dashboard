@@ -20,6 +20,8 @@ const BroadcastPage = lazy(() => import("./pages/BroadcastPage"));
 const SignIn = lazy(() => import("./components/auth/SignIn"));
 const CreatePassword = lazy(() => import("./components/auth/CreatePassword"));
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function App() {
   const { dispatch } = useTasksContext();
   const { uploadImage } = useImageUpload();
@@ -31,15 +33,12 @@ function App() {
   useEffect(() => {
     const fetchTask = async () => {
       try {
-        const response = await fetch(
-          "https://backend-ums.onrender.com/api/task",
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${user?.token}`,
-            },
-          }
-        );
+        const response = await fetch(`${API_URL}/api/task`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${user?.token}`,
+          },
+        });
 
         if (!response.ok) {
           toast(`${response.statusText}`, {
@@ -61,7 +60,7 @@ function App() {
 
         const data = await response.json();
         dispatch({ type: "SET_TASK", payload: data.data });
-        console.log("here", data.data);
+        // console.log("here", data.data);
       } catch (err) {
         console.error("Error fetching tasks:", err);
       }
@@ -75,7 +74,7 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleUpload = async (file) => {
-    console.log("File uploaded:", file);
+    // console.log("File uploaded:", file);
     // Add logic to send the file to the backend here
     await uploadImage(file);
   };

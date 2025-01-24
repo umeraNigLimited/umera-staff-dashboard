@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import {
   BarChart2,
   ClipboardCheck,
@@ -21,6 +22,18 @@ const OverviewPage = () => {
   const { tasks, metrics } = useTasksContext();
   const { leaveMetrics } = useLeaveContext();
   const { queryMetrics } = useQueryContext();
+
+  useEffect(() => {
+    if ("Notification" in window) {
+      Notification.requestPermission().then((permission) => {
+        if (permission === "granted") {
+          console.log("Browser notifications enabled");
+        } else {
+          console.log("Browser notifications denied");
+        }
+      });
+    }
+  }, []);
 
   const processTasks = () => {
     return tasks.map((task) => {

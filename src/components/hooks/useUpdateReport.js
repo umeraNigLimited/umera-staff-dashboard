@@ -1,6 +1,9 @@
 import { useReportContext } from "./useReportContext";
 import { useAuthContext } from "./useAuthContext";
 import { useState } from "react";
+import { data } from "autoprefixer";
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const useUpdateReport = () => {
   const [error, setError] = useState(null);
@@ -12,17 +15,14 @@ export const useUpdateReport = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(
-        `http://localhost:29199/report/${report_id}`,
-        {
-          method: "PATCH",
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ ...updates }),
-        }
-      );
+      const response = await fetch(`${API_URL}/api/report/${report_id}`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...updates }),
+      });
 
       const json = await response.json();
 
@@ -34,6 +34,8 @@ export const useUpdateReport = () => {
       if (response.ok) {
         //update Report Context
         dispatch({ type: "SET_REPORT", payload: json.data });
+        // console.log("updated data", json.data);
+        // console.log({ ...updates });
 
         setLoading(false);
       }
@@ -41,7 +43,7 @@ export const useUpdateReport = () => {
       // Catch network or unexpected errors
       setLoading(false);
       setError("Unable to create password. Please try again later.");
-      console.log(err);
+      // console.log(err);
     }
   };
 

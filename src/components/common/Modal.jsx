@@ -6,7 +6,7 @@ const ProfileUploadModal = ({ isOpen, onClose, onUpload }) => {
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
-    console.log(selectedFile);
+    // console.log(selectedFile);
   };
 
   const handleUpload = () => {

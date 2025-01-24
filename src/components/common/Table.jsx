@@ -27,7 +27,10 @@ function TanStackTable({ d }) {
       header: "Tasks",
       accessorKey: "task_content",
       size: 400,
-      cell: (info) => info.getValue(),
+      cell: (info) => {
+        const value = info.getValue();
+        return value || null;
+      },
     },
     // {
     //   header: "Status",
@@ -58,8 +61,13 @@ function TanStackTable({ d }) {
       header: " Due Date",
       accessorKey: "due_date",
       cell: (info) => {
+        //Get the Task Conntent
+        const task = info.row.original.task_content;
         // Get the due_date value
         const dueDateValue = info.getValue();
+
+        // Do not render anything if there's no task
+        if (!task) return null;
 
         // Check if the due_date is valid (not null or undefined)
         if (!dueDateValue) {
@@ -126,7 +134,7 @@ function TanStackTable({ d }) {
         </span> */}
       </div>
 
-      <div className="overflow-x-auto bg-white shadow rounded-lg min-h-80">
+      <div className="overflow-x-auto bg-white shadow rounded-lg h-auto">
         <table
           className="min-w-full border-collapse h-full"
           id="overview-tasks"

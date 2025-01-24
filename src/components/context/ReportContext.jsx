@@ -1,6 +1,8 @@
 import React, { createContext, useReducer, useEffect } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export const ReportContext = createContext();
 
 const reportReducer = (state, action) => {
@@ -28,7 +30,7 @@ export const ReportContextProvider = ({ children }) => {
   useEffect(() => {
     const fetchReport = async () => {
       try {
-        const response = await fetch("http://localhost:29199/api/report/");
+        const response = await fetch(`${API_URL}/api/report/`);
         const data = await response.json();
 
         if (response.ok) {
@@ -45,7 +47,7 @@ export const ReportContextProvider = ({ children }) => {
     }
   }, [dispatch, user]);
 
-  console.log("This is it", state.report);
+  // console.log("This is it", state.report);
 
   return (
     <ReportContext.Provider value={{ ...state, dispatch }}>

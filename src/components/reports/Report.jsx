@@ -5,10 +5,10 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import { useUpdateReport } from "../hooks/useUpdateReport";
 import { useReportContext } from "../hooks/useReportContext";
 
-const Report = ({}) => {
+const Report = ({ data }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [editReport, setEditReport] = useState(false);
-  const [updatedReport, setUpdatedReport] = useState({});
+  const [updatedReport, setUpdatedReport] = useState(data);
 
   const { user } = useAuthContext();
   const { report } = useReportContext();
@@ -17,6 +17,8 @@ const Report = ({}) => {
   // Check if the current user is the owner of the report
   const isEditable =
     user.staffID === data.staff_id || user?.department === "UMeRA-DPT-AD";
+
+  // console.log("report", report);
 
   // Handle field change
   const handleChange = (field, value) => {
@@ -33,8 +35,8 @@ const Report = ({}) => {
   const toggleEdit = async () => {
     if (editReport) {
       try {
-        await updateReport(report.report_id, updatedReport);
-        console.log("Updated report:", updatedReport);
+        await updateReport(updatedReport.report_id, updatedReport);
+        // console.log("Updated report:", updatedReport);
       } catch (err) {
         console.error("Failed to update report:", err);
       }
@@ -52,7 +54,7 @@ const Report = ({}) => {
       transition={{ delay: 0.2 }}
     >
       <h2 className="text-lg font-medium mb-4 text-gray-800">
-        {user.other_name}
+        {updatedReport.other_name}
       </h2>
       <span className="text-gray-500 text-sm">
         {formatDistanceToNow(new Date(data.sent_at), { addSuffix: true })}
@@ -65,7 +67,15 @@ const Report = ({}) => {
         }`}
       >
         <div className="mt-4 text-gray-300 overflow-hidden">
-          {["content", "chalenge", "gadget", "request"].map((field) => (
+          {[
+            "content",
+            "chalenge",
+            "workinprogress",
+            "objectives",
+            "recommendations",
+            "gadget",
+            "request",
+          ].map((field) => (
             <textarea
               key={field}
               disabled={!editReport}

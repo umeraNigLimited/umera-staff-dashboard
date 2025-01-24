@@ -1,6 +1,8 @@
 import React, { createContext, useReducer, useMemo, useEffect } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export const QueryContext = createContext();
 
 const queryReducer = (state, action) => {
@@ -32,7 +34,7 @@ export const QueryContextProvider = ({ children }) => {
   useEffect(() => {
     const fetchQuery = async () => {
       try {
-        const response = await fetch("http://localhost:29199/api/query/", {
+        const response = await fetch(`${API_URL}/api/query/`, {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },

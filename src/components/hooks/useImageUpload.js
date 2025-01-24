@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useImageContext } from "./useImageContext";
 import { useAuthContext } from "./useAuthContext";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export const useImageUpload = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -13,7 +15,7 @@ export const useImageUpload = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch("http://localhost:29199/api/image/upload", {
+      const response = await fetch(`${API_URL}/api/image/upload`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${user.token}`,
@@ -23,7 +25,7 @@ export const useImageUpload = () => {
       });
 
       const json = await response.json();
-      console.log(json);
+      // console.log(json);
 
       if (!response.ok) {
         setLoading(false);

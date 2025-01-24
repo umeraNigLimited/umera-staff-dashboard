@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useAuthContext } from "./useAuthContext";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export const useSignIn = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -11,14 +13,11 @@ export const useSignIn = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(
-        "https://backend-ums.onrender.com/api/staff/login",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ staff_id, office_email, password }),
-        }
-      );
+      const response = await fetch(`${API_URL}/api/staff/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ staff_id, office_email, password }),
+      });
 
       const json = await response.json();
 

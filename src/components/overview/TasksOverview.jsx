@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import TanStackTable from "../common/Table";
 import { useTasksContext } from "../hooks/useTasksContext";
-import { Plus } from "lucide-react";
 
 const TaskOverview = () => {
   const { tasks } = useTasksContext();
@@ -28,7 +27,7 @@ const TaskOverview = () => {
       transition={{ delay: 0.4 }}
     >
       <h2 className="text-lg font-medium mb-4 text-gray-900">Tasks</h2>
-      <div className="h-auto h-min-80">
+      <div className="h-auto min-h-20">
         <TanStackTable d={tasks} />
       </div>
     </motion.div>

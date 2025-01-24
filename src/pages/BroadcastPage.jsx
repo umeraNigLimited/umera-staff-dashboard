@@ -5,7 +5,7 @@ import { useSendAnnouncement } from "../components/hooks/useSendAnnouncement";
 function BroadcastPage() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const { sendAnnouncement } = useSendAnnouncement();
+  const { sendAnnouncement, error, loading } = useSendAnnouncement();
 
   const handleSubmit = async (e) => {
     // e.preventDefault();
@@ -68,13 +68,17 @@ function BroadcastPage() {
 
         {/* Submit Button */}
         <button
+          disabled={loading}
           type="submit"
           className="w-full bg-red-600 text-white py-2 px-4 rounded-md font-medium hover:bg-red-700 transition"
           onClick={handleSubmit}
         >
-          Broadcast a Message
+          {!loading ? "Broadcast a Message" : "Broadcasting..."}
         </button>
       </main>
+      {error && (
+        <p className="text-sm text-red-600 bg-red-100 p-2 rounded">{error}</p>
+      )}
     </div>
   );
 }

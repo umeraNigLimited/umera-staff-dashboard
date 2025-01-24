@@ -17,6 +17,8 @@ import { toast } from "react-toastify";
 import { useTasksContext } from "../hooks/useTasksContext";
 import { useAuthContext } from "../hooks/useAuthContext";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function TaskTable({ d }) {
   const [pagination, setPagination] = useState({
     pageIndex: 0,
@@ -45,7 +47,7 @@ function TaskTable({ d }) {
   };
 
   function handleAddTask() {
-    fetch(`http://localhost:29199/api/task`, {
+    fetch(`${API_URL}/api/task`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${user.token}`,
@@ -83,7 +85,7 @@ function TaskTable({ d }) {
     }));
 
     // Optional: Trigger any additional logic, like updating the backend
-    console.log(`Checkbox for task ${id} is now ${e.target.checked}`);
+    // console.log(`Checkbox for task ${id} is now ${e.target.checked}`);
 
     if (e.target.checked) {
       // Trigger confetti
@@ -124,7 +126,7 @@ function TaskTable({ d }) {
       draggable: true,
     });
 
-    fetch(`http://localhost:29199/api/task/${id}`, {
+    fetch(`${API_URL}/api/task/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${user.token}`,
@@ -165,7 +167,7 @@ function TaskTable({ d }) {
     // const updatedTask = taskData.find((task) => task.task_id === id);
 
     // Send the update to the server
-    fetch(`http://localhost:29199/api/task/${id}`, {
+    fetch(`${API_URL}/api/task/${id}`, {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${user.token}`,
@@ -183,17 +185,17 @@ function TaskTable({ d }) {
       .then((data) => {
         if (data && data.data) {
           // Replace the updated task in the state
-          console.log("data", data.data.task_id);
-          setTaskData((prevData) =>
-            prevData.map((task) => {
-              console.log("data task id", task.task_id);
-              return task.task_id === data.data.task_id ? data.data : task;
-            })
-          );
+          // console.log("data", data.data.task_id);
+          // setTaskData((prevData) =>
+          //   prevData.map((task) => {
+          //     console.log("data task id", task.task_id);
+          //     return task.task_id === data.data.task_id ? data.data : task;
+          //   })
+          // );
           dispatch({ type: "UPDATE_TASK", payload: data.data });
-          console.log("data tasks global", tasks);
+          // console.log("data tasks global", tasks);
         }
-        console.log("Task updated successfully:", data);
+        // console.log("Task updated successfully:", data);
       })
       .catch((error) => {
         console.error("Error updating task:", error);
@@ -377,9 +379,9 @@ function TaskTable({ d }) {
         </span>
       </div>
 
-      <div className="overflow-x-auto bg-white shadow rounded-lg min-h-96">
+      <div className="overflow-x-auto bg-white shadow rounded-lg min-h-20">
         <table
-          className="min-w-full border-collapse h-full"
+          className="min-w-full border-collapse h-auto"
           id="overview-tasks"
         >
           <thead className="bg-gray-200 text-gray-700">

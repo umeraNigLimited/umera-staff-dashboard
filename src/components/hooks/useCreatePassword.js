@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "./useAuthContext";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export const useCreatePassword = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -13,16 +15,13 @@ export const useCreatePassword = () => {
     setLoading(true);
     setError(null);
 
-    console.log(staff_id, password);
+    // console.log(staff_id, password);
     try {
-      const response = await fetch(
-        "http://localhost:29199/api/staff/create_password",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ staff_id: staff_id, password: password }),
-        }
-      );
+      const response = await fetch(`${API_URL}/api/staff/create_password`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ staff_id: staff_id, password: password }),
+      });
 
       const json = await response.json();
 

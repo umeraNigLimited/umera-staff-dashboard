@@ -10,7 +10,7 @@ const celebrationReducer = (state, action) => {
       };
     case "CREATE_CELEBRATION":
       return {
-        celebration: [...state, action.payload],
+        celebration: [...state.celebration, action.payload],
       };
     default:
       return state;

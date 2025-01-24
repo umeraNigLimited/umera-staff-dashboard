@@ -34,10 +34,19 @@ const tasksReducer = (state, action) => {
       return {
         tasks: state.tasks.map((task) =>
           task.task_id === action.payload.task_id
-            ? [action.payload, ...state.tasks]
+            ? { ...task, ...action.payload } // Replace the matched task
             : task
-        ), // Update the specific task
+        ),
       };
+
+    // case "UPDATE_TASK":
+    //   return {
+    //     tasks: state.tasks.map((task) =>
+    //       task.task_id === action.payload.task_id
+    //         ? [action.payload, ...state.tasks]
+    //         : task
+    //     ), // Update the specific task
+    //   };
 
     case "DELETE_TASK":
       return {
@@ -79,9 +88,9 @@ export const TasksContextProvider = ({ children }) => {
       mediumPriorityTasks,
       lowPriorityTasks,
     };
-  }, [dispatch, state.tasks]);
+  }, [state.tasks]);
 
-  console.log("there is task context", state.tasks);
+  // console.log("there is task context", state.tasks);
 
   return (
     <TasksContext.Provider value={{ ...state, metrics, dispatch }}>
