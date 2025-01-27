@@ -94,6 +94,8 @@ function TaskTable({ d }) {
         spread: 200,
         origin: { y: 0.6 },
       });
+
+      handleUpdate(id, "status", "completed");
       toast("Completed! Oblee for You my Gee 🎉", {
         position: "top-center",
         autoClose: 5000, // Closes after 3 seconds
@@ -104,6 +106,8 @@ function TaskTable({ d }) {
       });
 
       console.log("You don Complete this Task Oga mi");
+    } else {
+      handleUpdate(id, "status", "to_do");
     }
 
     console.log("Checkbox is checked:", e.target.checked);
