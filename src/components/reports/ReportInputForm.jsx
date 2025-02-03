@@ -180,7 +180,7 @@ const ReportInputForm = ({ setCreateReport }) => {
               htmlFor="objectives"
               className="block text-sm font-medium text-gray-800 mb-1"
             >
-              Recommendations
+              Recommendations/Conclusion
             </label>
             <textarea
               id="recommendations"

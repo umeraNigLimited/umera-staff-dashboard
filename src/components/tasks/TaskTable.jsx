@@ -224,7 +224,11 @@ function TaskTable({ d }) {
               id={info.row.original.task_id}
               type="checkbox"
               className="form-checkbox rounded-full h-5 w-5 transition duration-200 text-gray-800"
-              checked={checkboxStates[info.row.original.task_id] || false} // Default to false if not set
+              checked={
+                info.row.original.status == "completed"
+                  ? true
+                  : checkboxStates[info.row.original.task_id]
+              } // Default to false if not set
               onChange={(e) =>
                 handleCheckboxChange(info.row.original.task_id, e)
               }

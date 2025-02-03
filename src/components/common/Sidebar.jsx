@@ -30,6 +30,7 @@ const SIDEBAR_ITEMS = [
   //   href: "/Productivity",
   // },
   { name: "Broadcast", icon: Volume1, color: "white", href: "/broadcast" },
+  { name: "Employees", icon: Users, color: "white", href: "/employees" },
   //   { name: "Orders", icon: ShoppingCart, color: "#F59E0B", href: "/orders" },
   { name: "Settings", icon: Settings, color: "white", href: "/settings" },
 ];
@@ -84,7 +85,8 @@ const Sidebar = () => {
           {SIDEBAR_ITEMS.map((item) => (
             <Link key={item.href} to={item.href}>
               {user?.department !== "UMeRA-DPT-AD" &&
-              item.name == "Broadcast" ? null : (
+              item.name == "Broadcast" &&
+              "Employees" ? null : (
                 <motion.div className="flex items-center p-4 text-sm font-medium rounded-lg hover:bg-red-700 transition-colors mb-2">
                   <item.icon
                     size={20}

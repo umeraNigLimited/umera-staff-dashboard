@@ -23,7 +23,7 @@ const AnalyticsPage = () => {
     <div className="flex-1 overflow-auto relative z-10 bg-gray-200">
       <Header title={"Reports"} />
 
-      <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8">
+      <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8 mt-16">
         <button
           className="bg-red-800 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-200 w-full sm:w-auto flex items-center justify-center outline-0"
           onClick={onCreateReport}

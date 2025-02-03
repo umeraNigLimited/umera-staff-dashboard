@@ -10,7 +10,7 @@ const SettingsPage = () => {
   return (
     <div className="flex-1 overflow-auto relative z-10 bg-red-950">
       <Header title="Settings" />
-      <main className="max-w-4xl mx-auto py-6 px-4 lg:px-8">
+      <main className="max-w-4xl mx-auto py-6 px-4 lg:px-8 mt-16">
         <Profile />
         <Notifications />
         <Documents />

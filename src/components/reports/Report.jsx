@@ -72,7 +72,7 @@ const Report = ({ data }) => {
             "chalenge",
             "workinprogress",
             "objectives",
-            "recommendations",
+            "recommendations/conclusion",
             "gadget",
             "request",
           ].map((field) => (

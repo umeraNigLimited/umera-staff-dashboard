@@ -18,6 +18,7 @@ const OrdersPage = lazy(() => import("./pages/OrdersPage"));
 const ReportsPage = lazy(() => import("./pages/ReportsPage"));
 const SettingsPage = lazy(() => import("./pages/SettingsPage"));
 const BroadcastPage = lazy(() => import("./pages/BroadcastPage"));
+const EmployeesPage = lazy(() => import("./pages/EmployeesPage"));
 const SignIn = lazy(() => import("./components/auth/SignIn"));
 const CreatePassword = lazy(() => import("./components/auth/CreatePassword"));
 
@@ -119,6 +120,10 @@ function App() {
           <Route
             path="/broadcast"
             element={user ? <BroadcastPage /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/employees"
+            element={user ? <EmployeesPage /> : <Navigate to="/login" />}
           />
           <Route
             path="/settings"

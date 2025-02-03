@@ -17,7 +17,7 @@ export const useCreatePassword = () => {
 
     // console.log(staff_id, password);
     try {
-      const response = await fetch(`${API_URL}/api/staff/create_password`, {
+      const response = await fetch(`${API_URL}/api/auth/create_password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ staff_id: staff_id, password: password }),
